@@ -201,7 +201,7 @@ Implementation of the _s21_graph_algorithms.h_ library:
 * The class ` GraphAlgorithms ` must contain at least the following public methods:
     + `DepthFirstSearch(Graph &graph, int start_vertex)` - a *non-recursive* depth-first search in the graph from a given vertex. The function should return an array that contains the traversed vertices in the order they were traversed. When implementing this function, you must use the *self-written* data structure **stack**, which should be previously made as a separate static library
     + `BreadthFirstSearch(Graph &graph, int start_vertex)` - breadth-first search in the graph from a given vertex. The function should return an array that contains the traversed vertices in the order they were traversed. When implementing this function, you must use the *self-written* data structure **queue**, which should be previously made as a separate static library
-* It is necessary to use *self-written* helper classes `Stack` and `Queue` (you can reuse your solution from the *CPP2* project for this). These classes must contain the following methods:
+* It is necessary to adapt previously created *self-written* helper classes `Stack` and `Queue` (you can reuse your solution from the *CPP2* project for this) and implement interfaces for them in C++. These classes must contain the following methods:
     + `stack()` - creating an empty stack
     + `queue()` - creating an empty queue
     + `push(value)` - adding an element to the stack/queue
@@ -268,4 +268,4 @@ You need to find the shortest path that goes through all vertices of the graph a
 
 `-` "Charlie... is working. We've got a little problem, and your pathfinding work is exactly what will help us. Don't worry, when it's all over, our evening gatherings will be back. Then we'll discuss everything," calming, but sadly assured Alice. "Thanks for your time, I have to go. See you later!"
 
-💡 [Tap here](https://forms.yandex.ru/cloud/64181dc7c769f102064293e1/) **to leave your feedback on the project**. Product Team really tries to make your educational experience better.
+💡 [Tap here](https://forms.yandex.ru/cloud/65f5934a068ff0d4d9fd4851/) **to leave your feedback on the project**. Product Team really tries to make your educational experience better.
