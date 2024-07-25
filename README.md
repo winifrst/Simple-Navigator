@@ -5,6 +5,8 @@ Implementation of the Simple Navigator project.
 The russian version of the task can be found in the repository.
 
 
+💡 [Tap here](https://new.oprosso.net/p/4cb31ec3f47a4596bc758ea1861fb624) **to leave your feedback on the project**. It's anonymous and will help our team make your educational experience better. We recommend completing the survey immediately after the project.
+
 ## Contents
 
 1. [Chapter I](#chapter-i) \
@@ -176,36 +178,36 @@ Within this problem, all graphs must meet the following requirements:
 
 ## Part 1. Depth- and Breadth-first search 
 
-Implementation of the _s21_graph_ library:  
+Implementation of the s21_graph library:  
 * The library must be developed in C++ language of C++17 standard.
 * The library code must be located in the src folder in the develop branch.  
 * When writing code it is necessary to follow the Google style.
-* Make it as a static library (_s21_graph_).
+* Make it as a static library (s21_graph).
 * The library must be represented as a `Graph` class that stores information about the graph using an **adjacency matrix**. The dimensionality of the adjacency matrix should be set dynamically when initializing the graph (when loading it from a file).
-* The program must be built with Makefile which contains standard set of targets for GNU-programs: _all, clean, test, s21_graph_.
+* The program must be built with Makefile which contains standard set of targets for GNU-programs: all, clean, test, s21_graph.
 *Prepare full coverage of the `Graph` class methods with unit-tests.
 * The class `Graph` must contain at least the following public methods:
     + `LoadGraphFromFile(string filename)` — loading a graph from a file in the adjacency matrix format.
     + `ExportGraphToDot(string filename)`- exporting a graph to a dot file (see materials).
 
-Implementation of the _s21_graph_algorithms.h_ library:  
+Implementation of the s21_graph_algorithms library:  
 * The library must be developed in C++ language of C++17 standard.
 * The library code must be located in the src folder in the develop branch.  
-* Make it as a static library (_s21_graph_algorithms_).
+* Make it as a static library (s21_graph_algorithms).
 * The library must be represented as a ` GraphAlgorithms ` class that stores the implementation of algorithms on graphs. The class `GraphAlgorithms` itself must not know anything about the internal representation of the graph from the class `Graph`. To interact with graph data, the class `GraphAlgorithms` can only use the public methods and properties provided by the `Graph` class. 
-* Add to the Makefile _s21_graph_algorithms_ target. 
+* Add to the Makefile s21_graph_algorithms target. 
 * Prepare full coverage of the `GraphAlgorithms` class methods with unit-tests.
 * The class ` GraphAlgorithms ` must contain at least the following public methods:
     + `DepthFirstSearch(Graph &graph, int start_vertex)` — a *non-recursive* depth-first search in the graph from a given vertex. The function should return an array that contains the traversed vertices in the order they were traversed. When implementing this function, you must use the *self-written* data structure **stack**, which should be previously made as a separate static library.
     + `BreadthFirstSearch(Graph &graph, int start_vertex)` — breadth-first search in the graph from a given vertex. The function should return an array that contains the traversed vertices in the order they were traversed. When implementing this function, you must use the *self-written* data structure **queue**, which should be previously made as a separate static library.
 * It is necessary to adapt previously created *self-written* helper classes `Stack` and `Queue` (you can reuse your solution from the *CPP2* project for this) and implement interfaces for them in C++. These classes must contain the following methods:
-    + `stack()` — creating an empty stack;
-    + `queue()` — creating an empty queue;
-    + `push(value)` — adding an element to the stack/queue;
-    + `pop()` — getting an element from the stack/queue followed by its removal from the stack/queue;
-    + `top()` — getting an element from the stack without its removal from the stack;
-    + `front()` — getting the first element from the queue without its removal from the queue;
-    + `back()` — getting the last element from the queue without its removal from the queue.
+    + `Stack()` — creating an empty stack;
+    + `Queue()` — creating an empty queue;
+    + `Push(value)` — adding an element to the stack/queue;
+    + `Pop()` — getting an element from the stack/queue followed by its removal from the stack/queue;
+    + `Top()` — getting an element from the stack without its removal from the stack;
+    + `Front()` — getting the first element from the queue without its removal from the queue;
+    + `Back()` — getting the last element from the queue without its removal from the queue.
 
 *In this and the following tasks, consider that the vertex numbers start from 1.*
 
@@ -264,5 +266,3 @@ You need to find the shortest path that goes through all vertices of the graph a
 "Still, I don't see how your job has anything to do with a robot vacuum cleaner," Eve complained. "Where is Charlie? He used to come by at least a couple of times a week."
 
 "Charlie... is working. We've got a little problem, and your trail work is just what we need. Don't worry, when this is all over, our evening meetings will be back. We'll discuss everything then," Alice assured her reassuringly, but sadly. "Thank you for your time, I have to go. See you later!"
-
-💡 [Tap here](https://forms.yandex.ru/cloud/65f5934a068ff0d4d9fd4851/) **to leave your feedback on the project**. Product Team really tries to make your educational experience better.
