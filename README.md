@@ -179,7 +179,7 @@ Within this problem, all graphs must meet the following requirements:
 ## Part 1. Depth- and Breadth-first search 
 
 Implementation of the s21_graph library:  
-* The library must be developed in C++ language of C++17 standard.
+* The library must be developed in C++ language of C++20 standard.
 * The library code must be located in the src folder in the develop branch.  
 * When writing code it is necessary to follow the Google style.
 * Make it as a static library (s21_graph).
@@ -191,7 +191,7 @@ Implementation of the s21_graph library:
     + `ExportGraphToDot(string filename)`- exporting a graph to a dot file (see materials).
 
 Implementation of the s21_graph_algorithms library:  
-* The library must be developed in C++ language of C++17 standard.
+* The library must be developed in C++ language of C++20 standard.
 * The library code must be located in the src folder in the develop branch.  
 * Make it as a static library (s21_graph_algorithms).
 * The library must be represented as a ` GraphAlgorithms ` class that stores the implementation of algorithms on graphs. The class `GraphAlgorithms` itself must not know anything about the internal representation of the graph from the class `Graph`. To interact with graph data, the class `GraphAlgorithms` can only use the public methods and properties provided by the `Graph` class. 
