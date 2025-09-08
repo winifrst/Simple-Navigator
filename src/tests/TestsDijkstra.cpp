@@ -3,8 +3,8 @@
 
 TEST(DijkstraAlgorithmTest, SingleEdgeGraph) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {{0, 2}, {2, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  std::vector<std::vector<int>> matrix = {{0, 2}, {2, 0}};
+  graph.SetAdjacencyMatrix(matrix);
 
   long long dist = GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 2);
   EXPECT_EQ(dist, 2);
@@ -15,8 +15,8 @@ TEST(DijkstraAlgorithmTest, SingleEdgeGraph) {
 
 TEST(DijkstraAlgorithmTest, PathToSelfIsZero) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {{0, 3}, {4, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  std::vector<std::vector<int>> matrix = {{0, 3}, {4, 0}};
+  graph.SetAdjacencyMatrix(matrix);
 
   long long dist = GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 1);
   EXPECT_EQ(dist, 0);
@@ -24,8 +24,8 @@ TEST(DijkstraAlgorithmTest, PathToSelfIsZero) {
 
 TEST(DijkstraAlgorithmTest, MiniGraph) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {{0, 1, 4}, {1, 0, 2}, {4, 2, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  std::vector<std::vector<int>> matrix = {{0, 1, 4}, {1, 0, 2}, {4, 2, 0}};
+  graph.SetAdjacencyMatrix(matrix);
 
   // 1->2->3 = 1+2=3
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 3), 3);
@@ -35,8 +35,8 @@ TEST(DijkstraAlgorithmTest, MiniGraph) {
 
 TEST(DijkstraAlgorithmTest, NoPathThrows) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {{0, 0}, {0, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  std::vector<std::vector<int>> matrix = {{0, 0}, {0, 0}};
+  graph.SetAdjacencyMatrix(matrix);
 
   EXPECT_THROW(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 2),
                std::runtime_error);
@@ -44,8 +44,8 @@ TEST(DijkstraAlgorithmTest, NoPathThrows) {
 
 TEST(DijkstraAlgorithmTest, InvalidVertexThrows) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {{0, 1}, {1, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  std::vector<std::vector<int>> matrix = {{0, 1}, {1, 0}};
+  graph.SetAdjacencyMatrix(matrix);
 
   EXPECT_THROW(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 0, 2),
                std::out_of_range);
@@ -55,8 +55,8 @@ TEST(DijkstraAlgorithmTest, InvalidVertexThrows) {
 
 TEST(DijkstraAlgorithmTest, GraphWithLoop) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {{1, 2, 0}, {2, 0, 3}, {0, 3, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  std::vector<std::vector<int>> matrix = {{1, 2, 0}, {2, 0, 3}, {0, 3, 0}};
+  graph.SetAdjacencyMatrix(matrix);
 
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 2), 2);
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 2, 3), 3);
@@ -64,8 +64,8 @@ TEST(DijkstraAlgorithmTest, GraphWithLoop) {
 
 TEST(DijkstraAlgorithmTest, AsymmetricWeights) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {{0, 10, 0}, {2, 0, 5}, {0, 1, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  std::vector<std::vector<int>> matrix = {{0, 10, 0}, {2, 0, 5}, {0, 1, 0}};
+  graph.SetAdjacencyMatrix(matrix);
 
   // 1 -> 2 = 10
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 2), 10);
@@ -79,12 +79,12 @@ TEST(DijkstraAlgorithmTest, AsymmetricWeights) {
 
 TEST(DijkstraAlgorithmTest, MediumGraph) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {{0, 2, 0, 6, 0},
-                                       {2, 0, 3, 8, 5},
-                                       {0, 3, 0, 0, 7},
-                                       {6, 8, 0, 0, 9},
-                                       {0, 5, 7, 9, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  std::vector<std::vector<int>> matrix = {{0, 2, 0, 6, 0},
+                                          {2, 0, 3, 8, 5},
+                                          {0, 3, 0, 0, 7},
+                                          {6, 8, 0, 0, 9},
+                                          {0, 5, 7, 9, 0}};
+  graph.SetAdjacencyMatrix(matrix);
 
   // 1 -> 2 -> 5: 2 + 5 = 7
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 5), 7);
@@ -95,16 +95,16 @@ TEST(DijkstraAlgorithmTest, MediumGraph) {
 
 TEST(DijkstraAlgorithmTest, DenseGraph) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {
+  std::vector<std::vector<int>> matrix = {
       {0, 1, 5, 2}, {1, 0, 2, 4}, {5, 2, 0, 1}, {2, 4, 1, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  graph.SetAdjacencyMatrix(matrix);
 
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 3), 3);
 }
 
 TEST(DijkstraAlgorithmTest, Large11NodeGraph) {
   Graph graph;
-  std::vector<std::vector<int>> mat = {
+  std::vector<std::vector<int>> matrix = {
       {0, 29, 20, 21, 16, 31, 100, 12, 4, 31, 18},
       {29, 0, 15, 29, 28, 40, 72, 21, 29, 41, 12},
       {20, 15, 0, 15, 14, 25, 81, 9, 23, 27, 13},
@@ -116,7 +116,7 @@ TEST(DijkstraAlgorithmTest, Large11NodeGraph) {
       {4, 29, 23, 25, 20, 36, 101, 15, 0, 35, 18},
       {31, 41, 27, 13, 16, 3, 99, 25, 35, 0, 38},
       {18, 12, 13, 25, 22, 37, 84, 13, 18, 38, 0}};
-  graph.SetAdjacencyMatrix(mat);
+  graph.SetAdjacencyMatrix(matrix);
 
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 9), 4);
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 11), 18);
@@ -133,15 +133,15 @@ TEST(DijkstraAlgorithmTest, Large11NodeGraph) {
 TEST(DijkstraAlgorithmTest, Large100NodeGraph) {
   int n = 100;
   Graph graph;
-  std::vector<std::vector<int>> mat(n, std::vector<int>(n, 0));
+  std::vector<std::vector<int>> matrix(n, std::vector<int>(n, 0));
 
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       if (i != j)
-        mat[i][j] = j + 1;
+        matrix[i][j] = j + 1;
     }
   }
-  graph.SetAdjacencyMatrix(mat);
+  graph.SetAdjacencyMatrix(matrix);
 
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 100),
             100);
