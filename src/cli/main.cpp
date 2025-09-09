@@ -1,8 +1,8 @@
 #include "main.h"
 
 int main() {
-  // Data data = {0};
-  Data data;
+  Data data = {0};
+  // Data data;
   main_loop(&data);
   return data.error;
 }
@@ -15,6 +15,13 @@ void main_loop(Data* data) {
   while (print_main_menu() &&
          (data->user_choice = get_user_input_int(0, 9)) != 9) {
     data->state = data->state * 10 + data->user_choice;
+
+    // if (data->state < 0 || data->state >= 9) {
+    //   printf("Invalid state! Resetting to 0.\n");
+    //   data->state = 0;
+    //   continue;
+    // }
+
     fsm_func fsm_table[9] = {paint_tyan, load_graph, export_graph, bfs,  dfs,
                              deikstra,   floid,      prim,         kamen};
     fsm_func fsm_action = fsm_table[data->state];
@@ -79,18 +86,19 @@ int print_main_menu() {
   printf("1. Load the original graph from a file\n");
   printf("2. Export graph to DOT format\n");
   printf("3. Traverse the graph in breadth (BFS)\n");
-  printf("4. Traverse the graph in depth (DFS)\n");
+  printf("4. (TO DO) Traverse the graph in depth (DFS)\n");
   printf(
-      "5. Find the shortest path between any two vertices (Dijkstra's "
+      "5. (TO DO) Find the shortest path between any two vertices (Dijkstra's "
       "algorithm)\n");
   printf(
-      "6. Find the shortest paths between all pairs of vertices in the graph "
+      "6. (TO DO) Find the shortest paths between all pairs of vertices in the "
+      "graph "
       "(Floyd-Warshall algorithm)\n");
   printf(
-      "7. Search for the minimum spanning tree in the graph (Prim's "
+      "7. (TO DO) Search for the minimum spanning tree in the graph (Prim's "
       "algorithm)\n");
   printf(
-      "8. Solve the Salesman problem (Ant colony, Brute-Force, Close "
+      "8. (TO DO) Solve the Salesman problem (Ant colony, Brute-Force, Close "
       "points)\n");
   printf("9. Exit\n");
   printf("> ");
@@ -241,15 +249,12 @@ void bfs(Data* data) {
   if (!data->graph.adjacencyMatrix.empty()) {
     // int result[data->graph.verticesCount];
     std::vector<int> result;
-    result = GraphAlgorithms::BreadthFirstSearch(
-        data->graph, get_user_input_int(1, data->graph.verticesCount) - 1);
+    // result.reserve(data->graph.verticesCount);  // Резервируем память заранее
+
     printf("Enter START vertex:\n> ");
+    int start_vertex = get_user_input_int(1, data->graph.verticesCount) - 1;
+    result = GraphAlgorithms::BreadthFirstSearch(data->graph, start_vertex);
     print_vector(result);
-    // print_array(
-    //     breadth_first_search(
-    //         &data->graph, get_user_input_int(1, data->graph.size) - 1,
-    //         result),
-    //     result);
   } else {
     printf(
         "\nThe graph is not initialized. Please load the graph from file "
@@ -263,9 +268,9 @@ void bfs(Data* data) {
  * @param data указатель на граф
  */
 void load_graph(Data* data) {
-  // if (data->graph.adjacencyMatrix) {
-  //   s21_remove_graph(&data->graph);
-  // }
+  if (!data->graph.adjacencyMatrix.empty()) {
+    data->graph.adjacencyMatrix.clear();
+  }
   char filename[256] = {0};
   printf("\nEnter graph filename:\n> ");
   scanf("%s", filename);
@@ -280,17 +285,25 @@ void load_graph(Data* data) {
         "../data-samples/true_graph_3.txt\n");
   }
 
-  if (data->state =
-          data->graph.LoadGraphFromFile(
-              filename[0] ? filename : "../data-samples/true_graph_3.txt") ==
-          EXIT_SUCCESS) {
+  int load_result = data->graph.LoadGraphFromFile(
+      filename[0] ? filename : "../data-samples/true_graph_3.txt");
+  if (load_result == EXIT_SUCCESS) {
+    data->state = 0;
     printf("\nGraph loaded successfully\n");
     print_matrix(&data->graph);
-    data->state = 0;
   } else {
-    printf("An error occurred while load_graph a graph from a file.\n");
+    printf("An error occurred while loading the graph from a file.\n");
   }
-  data->state = 0;
+  // if ((data->state = data->graph.LoadGraphFromFile(
+  //          filename[0] ? filename : "../data-samples/true_graph_3.txt")) ==
+  //     EXIT_SUCCESS) {
+  //   printf("\nGraph loaded successfully\n");
+  //   print_matrix(&data->graph);
+  //   data->state = 0;
+  // } else {
+  //   printf("An error occurred while load_graph a graph from a file.\n");
+  // }
+  // data->state = 0;
 }
 
 /**

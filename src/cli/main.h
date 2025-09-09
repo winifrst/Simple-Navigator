@@ -1,11 +1,9 @@
 #ifndef A2_SIMPLENAVIGATOR_V1_0_1_MAIN_H
 #define A2_SIMPLENAVIGATOR_V1_0_1_MAIN_H
 
-// #include "common.h"
 #include <string.h>
 
 #include <climits>
-// #include <vector>
 
 #include "../graph/graph.h"
 #include "../graph_algorithms/graph_algorithms.h"

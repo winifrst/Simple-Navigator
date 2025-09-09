@@ -36,16 +36,20 @@ class Queue {
     ++size_;
   }
 
-  const_reference Pop() {
+  T Pop() {
     if (Empty()) throw std::out_of_range("Queue is empty");
-    reference back = back_->data;
+
+    T value = front_->data;
     Node *temp = front_;
     front_ = front_->next;
-    if (front_ == nullptr) back_ = nullptr;
+
+    if (front_ == nullptr) {
+      back_ = nullptr;
+    }
     delete temp;
     --size_;
 
-    return back;
+    return value;
   }
 
   const_reference Front() const {
