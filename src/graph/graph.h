@@ -21,7 +21,6 @@ class Graph {
 
   std::vector<std::vector<int>> adjacencyMatrix;
   int verticesCount;
-  // std::vector<std::vector<int>> grid;
 };
 
 #endif  // GRAPH_H

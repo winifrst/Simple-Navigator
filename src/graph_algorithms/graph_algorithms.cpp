@@ -1,11 +1,9 @@
 #include "graph_algorithms.h"
 
-#include "../containers/queue.h"
-
 std::vector<int> GraphAlgorithms::BreadthFirstSearch(Graph &graph,
                                                      int start_vertex) {
   //   std::vector<std::vector<int>> graph;
-  size_t size = graph.grid.size();  // его мы принимаем
+  size_t size = graph.adjacencyMatrix.size();  // его мы принимаем
   std::vector<int> result;
   std::vector<bool> visited(size, false);
   Queue<int> grays;
@@ -17,7 +15,7 @@ std::vector<int> GraphAlgorithms::BreadthFirstSearch(Graph &graph,
     int current_vertex = grays.Pop();
     result.push_back(current_vertex + 1);
 
-    GetNeighbors(graph.grid, current_vertex, grays, visited);
+    GetNeighbors(graph.adjacencyMatrix, current_vertex, grays, visited);
   }
 
   return result;

@@ -2,6 +2,12 @@ CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Werror
 TEST_FLAGS = -lgtest -lgtest_main -pthread
 
+all:  libs/libstack.a libs/libqueue.a libs/libgraph.a 
+	$(CXX) -o cli libs/libgraph.a
+
+	# $(CC) $(CFLAGS) -o build/tetris $(wildcard gui/cli/*.c) tetris_lib.a $(LDFLAGS)
+
+
 libs/libstack.a: containers/stack.cpp containers/stack.h
 	mkdir -p libs
 	$(CXX) $(CXXFLAGS) containers/stack.cpp -c
@@ -28,9 +34,11 @@ test: libs/libstack.a libs/libqueue.a libs/libgraph.a tests/stack_test.cpp tests
 	$(CXX) $(CXXFLAGS) tests/stack_test.cpp tests/queue_test.cpp tests/graph_test.cpp tests/Test.cpp -L./libs -lstack -lqueue -lgraph -o test $(TEST_FLAGS)
 	./test
 
-# test: libs/libgraph.a libs/libstack.a libs/libqueue.a tests/stack_test.cpp tests/queue_test.cpp tests/graph_test.cpp tests/Test.cpp
-# 	$(CXX) $(CXXFLAGS) $^ -o test $(TEST_FLAGS)
-# 	./test
+style_check:
+	cp ../materials/linters/.clang-format .
+	clang-format -n */*.cpp */*.h
+	clang-format -i */*.cpp */*.h
+	rm -f .clang-format
 
 clean:
 	rm -rf stack_test libs
