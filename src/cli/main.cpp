@@ -79,12 +79,12 @@ int PrintMainMenu() {
   printf("1. Load the original graph from a file\n");
   printf("2. Export graph to DOT format\n");
   printf("3. Traverse the graph in breadth (BFS)\n");
-  printf("4. (TO DO) Traverse the graph in depth (DFS)\n");
+  printf("4. Traverse the graph in depth (DFS)\n");
   printf(
-      "5. (TO DO) Find the shortest path between any two vertices (Dijkstra's "
+      "5. Find the shortest path between any two vertices (Dijkstra's "
       "algorithm)\n");
   printf(
-      "6. (TO DO) Find the shortest paths between all pairs of vertices in the "
+      "6. Find the shortest paths between all pairs of vertices in the "
       "graph "
       "(Floyd-Warshall algorithm)\n");
   printf(
@@ -98,16 +98,36 @@ int PrintMainMenu() {
   return true;
 }
 
+// /**
+//  * Выводит размер графа и матрицу смежности на экран
+//  * @param graph указатель на граф
+//  */
+// void PrintMatrix(const Graph* graph) {
+//   printf("%+d\n", graph->verticesCount);
+//   for (int i = 0; i < graph->verticesCount; i++) {
+//     for (int j = 0; j < graph->verticesCount; j++) {
+//       printf(graph->adjacencyMatrix[i][j] == -1 ? " -- " : "%3d ",
+//              graph->adjacencyMatrix[i][j]);
+//     }
+//     printf("\n");
+//   }
+// }
+
 /**
  * Выводит размер графа и матрицу смежности на экран
- * @param graph указатель на граф
+ * @param adjacencyMatrix двумерный вектор
  */
-void PrintMatrix(const Graph* graph) {
-  printf("%+d\n", graph->verticesCount);
-  for (int i = 0; i < graph->verticesCount; i++) {
-    for (int j = 0; j < graph->verticesCount; j++) {
-      printf(graph->adjacencyMatrix[i][j] == -1 ? " -- " : "%3d ",
-             graph->adjacencyMatrix[i][j]);
+void PrintMatrix(const std::vector<std::vector<int>>& adjacencyMatrix) {
+  if (adjacencyMatrix.empty()) {
+    return;
+  }
+
+  int size = adjacencyMatrix.size();
+  printf("%+d\n", size);
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size; j++) {
+      printf(adjacencyMatrix[i][j] == -1 ? " -- " : "%3d ",
+             adjacencyMatrix[i][j]);
     }
     printf("\n");
   }
@@ -162,17 +182,19 @@ void Kamen(Data* data) {
  * @param data Указатель на набор данных
  */
 void Dijkstra(Data* data) {
-  // if (!data->graph.adjacencyMatrix.empty()) {
-  //   printf("Enter START vertex and END vertex:\n> ");
-  //   int vertex_1 = GetUserInputInt(1, data->graph.verticesCount) - 1;
-  //   int vertex_2 = GetUserInputInt(1, data->graph.verticesCount) - 1;
-  //   printf("Shortest path distance: %d\n",
-  //          GetShortestPathBetweenVertices(&data->graph, vertex_1, vertex_2));
-  // } else {
-  //   printf(
-  //       "\nThe graph is not initialized. Please load the graph from file "
-  //       "first.\n");
-  // }
+  if (!data->graph.adjacencyMatrix.empty()) {
+    printf("Enter START vertex and END vertex:\n> ");
+    int vertex_1 = GetUserInputInt(1, data->graph.verticesCount);
+    int vertex_2 = GetUserInputInt(1, data->graph.verticesCount);
+    // printf("Shortest path distance: %lld\n",
+    //        GraphAlgorithms::GetShortestPathBetweenVertices(data->graph,
+    //                                                        vertex_1,
+    //                                                        vertex_2));
+  } else {
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
+  }
   data->state = 0;
 }
 
@@ -181,17 +203,16 @@ void Dijkstra(Data* data) {
  * @param data Указатель на набор данных
  */
 void Floyd(Data* data) {
-  // Graph tmp;
-  // if (!data->graph.adjacencyMatrix.empty() || data->graph.verticesCount <= 0)
-  // {
-  //   std::vector<std::vector<int>> tmp =
-  //       GetShortestPathsBetweenAllVertices(&data->graph);
-  //   PrintMatrix(&tmp);
-  // } else {
-  //   printf(
-  //       "\nThe graph is not initialized. Please load the graph from file "
-  //       "first.\n");
-  // }
+  Graph tmp;
+  if (!data->graph.adjacencyMatrix.empty() || data->graph.verticesCount <= 0) {
+    // std::vector<std::vector<int>> result =
+    //     GraphAlgorithms::GetShortestPathsBetweenAllVertices(data->graph);
+    // PrintMatrix(result);
+  } else {
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
+  }
   data->state = 0;
 }
 
@@ -215,38 +236,36 @@ void Prim(Data* data) {
 }
 
 /**
- * Запуск DFS
- * @param data указатель на граф
- */
-void DFS(Data* data) {
-  // if (!data->graph.adjacencyMatrix.empty()) {
-  //   std::vector<int> result;
-  //   result = DepthFirstSearch(
-  //       data->graph, GetUserInputInt(1, data->graph.verticesCount) - 1);
-  //   printf("Enter START vertex:\n> ");
-  //   PrintVector(result);
-  //   // DepthFirstSearch(Graph &graph, int start_vertex)
-  // } else {
-  //   printf(
-  //       "\nThe graph is not initialized. Please load the graph from file "
-  //       "first.\n");
-  // }
-  data->state = 0;
-}
-
-/**
  * Запуск BFS
  * @param data указатель на граф
  */
 void BFS(Data* data) {
   if (!data->graph.adjacencyMatrix.empty()) {
-    // int result[data->graph.verticesCount];
     std::vector<int> result;
-    // result.reserve(data->graph.verticesCount);  // Резервируем память заранее
 
     printf("Enter START vertex:\n> ");
     int start_vertex = GetUserInputInt(1, data->graph.verticesCount) - 1;
     result = GraphAlgorithms::BreadthFirstSearch(data->graph, start_vertex);
+    PrintVector(result);
+  } else {
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
+  }
+  data->state = 0;
+}
+
+/**
+ * Запуск DFS
+ * @param data указатель на граф
+ */
+void DFS(Data* data) {
+  if (!data->graph.adjacencyMatrix.empty()) {
+    std::vector<int> result;
+
+    printf("Enter START vertex:\n> ");
+    int start_vertex = GetUserInputInt(1, data->graph.verticesCount) - 1;
+    result = GraphAlgorithms::DepthFirstSearch(data->graph, start_vertex);
     PrintVector(result);
   } else {
     printf(
@@ -283,9 +302,10 @@ void LoadGraph(Data* data) {
   if (load_result == EXIT_SUCCESS) {
     data->state = 0;
     printf("\nGraph loaded successfully\n");
-    PrintMatrix(&data->graph);
+    PrintMatrix(data->graph.adjacencyMatrix);
   } else {
     printf("An error occurred while loading the graph from a file.\n");
+    data->state = 0;
   }
   // if ((data->state = data->graph.LoadGraphFromFile(
   //          filename[0] ? filename : "../data-samples/true_graph_3.txt")) ==

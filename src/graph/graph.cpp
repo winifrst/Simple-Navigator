@@ -15,7 +15,6 @@ int Graph::LoadGraphFromFile(std::string c_filename) {
     return EXIT_FAILURE;
   }
 
-  // Graph result;
   error = LoadMatrixFromFile(&file);
 
   return error;
@@ -43,6 +42,7 @@ int Graph::LoadMatrixFromFile(std::ifstream* file) {
 
   if (error == EXIT_FAILURE) {
     this->adjacencyMatrix.clear();
+    this->verticesCount = 0;
   }
 
   return error;
@@ -51,6 +51,13 @@ int Graph::LoadMatrixFromFile(std::ifstream* file) {
 int Graph::ExportGraphToDot(std::string filename) {
   int error = EXIT_SUCCESS;
   const char* c_filename = filename.c_str();
+
+  if (this->verticesCount <= 0 || this->adjacencyMatrix.empty() ||
+      this->adjacencyMatrix.size() != (size_t)this->verticesCount ||
+      (this->adjacencyMatrix.size() > 0 &&
+       this->adjacencyMatrix[0].size() != (size_t)this->verticesCount)) {
+    return EXIT_FAILURE;
+  }
 
   if (this->verticesCount > 0 && !this->adjacencyMatrix.empty()) {
     FILE* file = NULL;
