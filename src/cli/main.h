@@ -15,22 +15,21 @@ typedef struct data {
   Graph graph;
 } Data;
 
-void main_loop(Data* data);
-int get_user_input_int(int start, int end);
-int print_main_menu();
-void print_matrix(const Graph* graph);
-// void print_array(int count, int* array);
-void print_vector(const std::vector<int>& result);
+void MainLoop(Data* data);
+int GetUserInputInt(int start, int end);
+int PrintMainMenu();
+void PrintMatrix(const Graph* graph);
+void PrintVector(const std::vector<int>& result);
 
-typedef void (*fsm_func)(Data* data);
-void paint_tyan(Data* data);
-void load_graph(Data* data);
-void export_graph(Data* data);
-void bfs(Data* data);
-void dfs(Data* data);
-void deikstra(Data* data);
-void floid(Data* data);
-void prim(Data* data);
-void kamen(Data* data);
+typedef void (*FsmFunc)(Data* data);
+void PaintTyan(Data* data);
+void LoadGraph(Data* data);
+void ExportGraph(Data* data);
+void BFS(Data* data);
+void DFS(Data* data);
+void Dijkstra(Data* data);
+void Floyd(Data* data);
+void Prim(Data* data);
+void Kamen(Data* data);
 
 #endif  // A2_SIMPLENAVIGATOR_V1_0_1_MAIN_H

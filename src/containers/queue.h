@@ -36,10 +36,10 @@ class Queue {
     ++size_;
   }
 
-  T Pop() {
+  value_type Pop() {
     if (Empty()) throw std::out_of_range("Queue is empty");
 
-    T value = front_->data;
+    value_type value = front_->data;
     Node *temp = front_;
     front_ = front_->next;
 
