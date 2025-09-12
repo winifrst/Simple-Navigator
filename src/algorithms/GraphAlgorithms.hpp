@@ -9,6 +9,8 @@ public:
   static std::vector<std::vector<int>>
   GetShortestPathsBetweenAllVertices(Graph &graph);
 
+  static std::vector<std::vector<int>> GetLeastSpanningTree(Graph &graph);
+
 private:
   GraphAlgorithms() = default;
   ~GraphAlgorithms() = default;
