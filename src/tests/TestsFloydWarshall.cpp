@@ -1,25 +1,8 @@
 #include "../algorithms/GraphAlgorithms.hpp"
+#include "TestUtils.hpp"
 #include <gtest/gtest.h>
 
 const int INF_INT = std::numeric_limits<int>::max();
-bool MatricesEqual(const std::vector<std::vector<int>> &a,
-                   const std::vector<std::vector<int>> &b) {
-  if (a.size() != b.size()) {
-    return false;
-  }
-  for (size_t i = 0; i < a.size(); ++i) {
-    if (a[i].size() != b[i].size()) {
-      return false;
-    }
-
-    for (size_t j = 0; j < a[i].size(); ++j) {
-      if (a[i][j] != b[i][j]) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
 
 TEST(FloydWarshallAlgorithmTest, SingleVertex) {
   Graph graph;
