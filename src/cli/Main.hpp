@@ -17,7 +17,7 @@ typedef struct data {
 void MainLoop(Data* data);
 int GetUserInputInt(int start, int end);
 int PrintMainMenu();
-void PrintMatrix(const Graph* graph);
+void PrintMatrix(const std::vector<std::vector<int>>& adjacencyMatrix);
 void PrintVector(const std::vector<int>& result);
 
 typedef void (*FsmFunc)(Data* data);
