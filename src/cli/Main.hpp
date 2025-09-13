@@ -1,12 +1,11 @@
-#ifndef A2_SIMPLENAVIGATOR_V1_0_1_MAIN_H
-#define A2_SIMPLENAVIGATOR_V1_0_1_MAIN_H
+#pragma once
 
 #include <string.h>
 
 #include <climits>
 
-#include "../graph/graph.h"
-#include "../graph_algorithms/graph_algorithms.h"
+#include "../algorithms/GraphAlgorithms.hpp"
+#include "../graph/Graph.hpp"
 
 typedef struct data {
   int error;
@@ -31,5 +30,3 @@ void Dijkstra(Data* data);
 void Floyd(Data* data);
 void Prim(Data* data);
 void Kamen(Data* data);
-
-#endif  // A2_SIMPLENAVIGATOR_V1_0_1_MAIN_H

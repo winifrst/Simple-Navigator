@@ -1,5 +1,4 @@
-#ifndef QUEUE_H
-#define QUEUE_H
+#pragma once
 
 #include <stdexcept>
 
@@ -69,5 +68,3 @@ class Queue {
     while (!Empty()) Pop();
   }
 };
-
-#endif

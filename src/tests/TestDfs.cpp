@@ -4,12 +4,12 @@
 #include <set>
 #include <vector>
 
-#include "../graph/graph.h"
-#include "../graph_algorithms/graph_algorithms.h"
+#include "../algorithms/GraphAlgorithms.hpp"
+#include "../graph/Graph.hpp"
 
 TEST(DFSTest, EmptyGraph) {
   Graph emptyGraph;
-  emptyGraph.verticesCount = 0;
+  // emptyGraph.verticesCount = 0;
   auto result = GraphAlgorithms::DepthFirstSearch(emptyGraph, 0);
   EXPECT_TRUE(result.empty());
 }

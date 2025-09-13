@@ -1,5 +1,4 @@
-#ifndef STACK_H
-#define STACK_H
+#pragma once
 
 #include <stdexcept>
 
@@ -55,5 +54,3 @@ class Stack {
 
   size_type Size() const { return size_; }
 };
-
-#endif  // STACK_H

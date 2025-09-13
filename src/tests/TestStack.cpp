@@ -1,6 +1,6 @@
-#include "../containers/stack.h"
-
 #include <gtest/gtest.h>
+
+#include "../containers/Stack.hpp"
 
 TEST(StackTest, DefaultConstructor) {
   Stack<int> stack;

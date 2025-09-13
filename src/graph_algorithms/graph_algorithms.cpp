@@ -1,7 +1,5 @@
 #include "graph_algorithms.h"
 
-#include <iostream>
-
 std::vector<int> GraphAlgorithms::BreadthFirstSearch(Graph &graph,
                                                      int start_vertex) {
   std::vector<int> result;

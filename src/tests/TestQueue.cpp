@@ -1,6 +1,6 @@
-#include "../containers/queue.h"
-
 #include <gtest/gtest.h>
+
+#include "../containers/Queue.hpp"
 
 TEST(QueueTest, DefaultConstructor) {
   Queue<int> queue;

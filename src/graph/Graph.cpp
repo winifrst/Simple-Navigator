@@ -1,4 +1,4 @@
-#include "graph.h"
+#include "Graph.hpp"
 
 int Graph::LoadGraphFromFile(std::string c_filename) {
   int error = EXIT_SUCCESS;
@@ -105,4 +105,17 @@ void Graph::PrintVertexName(FILE* file, int i) {
   if (i / 26 > 0) {
     fprintf(file, "%d", i / 26);
   }
+}
+
+// std::vector<std::vector<int>> Graph::GetAdjacencyMatrix() const {
+//   return adjacencyMatrix;
+// }
+
+const std::vector<std::vector<int>>& Graph::GetAdjacencyMatrix() const {
+  return adjacencyMatrix;
+}
+
+void Graph::SetAdjacencyMatrix(const std::vector<std::vector<int>>& matrix) {
+  adjacencyMatrix = matrix;
+  verticesCount = matrix.size();
 }

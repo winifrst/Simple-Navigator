@@ -1,8 +1,7 @@
-#include "main.h"
+#include "Main.hpp"
 
 int main() {
   Data data = {0};
-  // Data data;
   MainLoop(&data);
   return data.error;
 }
@@ -22,7 +21,7 @@ void MainLoop(Data* data) {
       FsmAction(data);
     }
   }
-  // if (!data->graph.adjacencyMatrix.empty()) {
+  // if (!data->graph.GetAdjacencyMatrix().empty()) {
   //   s21_remove_graph(&data->graph);
   // }
 }
@@ -138,7 +137,7 @@ void PrintMatrix(const std::vector<std::vector<int>>& adjacencyMatrix) {
  * @param data указатель на граф
  */
 void Kamen(Data* data) {
-  // if (!data->graph.adjacencyMatrix.empty()) {
+  // if (!data->graph.GetAdjacencyMatrix().empty()) {
   //   printf("Enter number of iterations:\n> ");
   //   int iter = GetUserInputInt(1, INT_MAX);
 
@@ -182,10 +181,12 @@ void Kamen(Data* data) {
  * @param data Указатель на набор данных
  */
 void Dijkstra(Data* data) {
-  if (!data->graph.adjacencyMatrix.empty()) {
+  std::vector<std::vector<int>> adjacencyMatrix =
+      data->graph.GetAdjacencyMatrix();
+  if (!adjacencyMatrix.empty()) {
     printf("Enter START vertex and END vertex:\n> ");
-    int vertex_1 = GetUserInputInt(1, data->graph.verticesCount);
-    int vertex_2 = GetUserInputInt(1, data->graph.verticesCount);
+    int vertex_1 = GetUserInputInt(1, data->graph.GetVerticesCount());
+    int vertex_2 = GetUserInputInt(1, data->graph.GetVerticesCount());
     // printf("Shortest path distance: %lld\n",
     //        GraphAlgorithms::GetShortestPathBetweenVertices(data->graph,
     //                                                        vertex_1,
@@ -204,7 +205,8 @@ void Dijkstra(Data* data) {
  */
 void Floyd(Data* data) {
   Graph tmp;
-  if (!data->graph.adjacencyMatrix.empty() || data->graph.verticesCount <= 0) {
+  if (!data->graph.GetAdjacencyMatrix().empty() ||
+      data->graph.GetVerticesCount() <= 0) {
     // std::vector<std::vector<int>> result =
     //     GraphAlgorithms::GetShortestPathsBetweenAllVertices(data->graph);
     // PrintMatrix(result);
@@ -240,11 +242,11 @@ void Prim(Data* data) {
  * @param data указатель на граф
  */
 void BFS(Data* data) {
-  if (!data->graph.adjacencyMatrix.empty()) {
+  if (!data->graph.GetAdjacencyMatrix().empty()) {
     std::vector<int> result;
 
     printf("Enter START vertex:\n> ");
-    int start_vertex = GetUserInputInt(1, data->graph.verticesCount) - 1;
+    int start_vertex = GetUserInputInt(1, data->graph.GetVerticesCount()) - 1;
     result = GraphAlgorithms::BreadthFirstSearch(data->graph, start_vertex);
     PrintVector(result);
   } else {
@@ -260,11 +262,11 @@ void BFS(Data* data) {
  * @param data указатель на граф
  */
 void DFS(Data* data) {
-  if (!data->graph.adjacencyMatrix.empty()) {
+  if (!data->graph.GetAdjacencyMatrix().empty()) {
     std::vector<int> result;
 
     printf("Enter START vertex:\n> ");
-    int start_vertex = GetUserInputInt(1, data->graph.verticesCount) - 1;
+    int start_vertex = GetUserInputInt(1, data->graph.GetVerticesCount()) - 1;
     result = GraphAlgorithms::DepthFirstSearch(data->graph, start_vertex);
     PrintVector(result);
   } else {
@@ -280,9 +282,10 @@ void DFS(Data* data) {
  * @param data указатель на граф
  */
 void LoadGraph(Data* data) {
-  if (!data->graph.adjacencyMatrix.empty()) {
-    data->graph.adjacencyMatrix.clear();
-  }
+  // надо ли очищать старую матрицу смежностей?
+  // if (!data->graph.GetAdjacencyMatrix().empty()) {
+  //   data->graph.GetAdjacencyMatrix().clear();
+  // }
   char filename[256] = {0};
   printf("\nEnter graph filename:\n> ");
   scanf("%s", filename);
@@ -302,7 +305,7 @@ void LoadGraph(Data* data) {
   if (load_result == EXIT_SUCCESS) {
     data->state = 0;
     printf("\nGraph loaded successfully\n");
-    PrintMatrix(data->graph.adjacencyMatrix);
+    PrintMatrix(data->graph.GetAdjacencyMatrix());
   } else {
     printf("An error occurred while loading the graph from a file.\n");
     data->state = 0;
@@ -324,7 +327,7 @@ void LoadGraph(Data* data) {
  * @param data указатель на граф
  */
 void ExportGraph(Data* data) {
-  if (!data->graph.adjacencyMatrix.empty()) {
+  if (!data->graph.GetAdjacencyMatrix().empty()) {
     if ((data->error = data->graph.ExportGraphToDot("export.dot")) ==
         EXIT_SUCCESS) {
       printf("\nGraph exported successfully in export.dot\n");

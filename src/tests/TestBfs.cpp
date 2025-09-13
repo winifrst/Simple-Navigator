@@ -4,12 +4,12 @@
 #include <set>
 #include <vector>
 
-#include "../graph/graph.h"
-#include "../graph_algorithms/graph_algorithms.h"
+#include "../algorithms/GraphAlgorithms.hpp"
+#include "../graph/Graph.hpp"
 
 TEST(BFSTest, EmptyGraph) {
   Graph emptyGraph;
-  emptyGraph.verticesCount = 0;
+  // emptyGraph.verticesCount = 0;
   auto result = GraphAlgorithms::BreadthFirstSearch(emptyGraph, 0);
   EXPECT_TRUE(result.empty());
 }
@@ -59,12 +59,15 @@ TEST(BFSTest, InvalidStartVertex) {
 
 TEST(SearchAlgorithmsTest, BFSvsDFS_MoreComplexGraph) {
   Graph graph;
-  graph.verticesCount = 7;
+  // graph.verticesCount = 7;
 
-  graph.adjacencyMatrix = {{0, 1, 1, 0, 0, 0, 0}, {0, 0, 0, 1, 1, 0, 0},
-                           {0, 0, 0, 0, 0, 1, 1}, {0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0}};
+  graph.SetAdjacencyMatrix({{0, 1, 1, 0, 0, 0, 0},
+                            {0, 0, 0, 1, 1, 0, 0},
+                            {0, 0, 0, 0, 0, 1, 1},
+                            {0, 0, 0, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0, 0, 0}});
 
   auto bfs = GraphAlgorithms::BreadthFirstSearch(graph, 0);
   auto dfs = GraphAlgorithms::DepthFirstSearch(graph, 0);
