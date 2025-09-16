@@ -75,7 +75,7 @@ test: $(TEST_BIN)
 
 style_check:
 	cp ../materials/linters/.clang-format .
-	clang-format -n */*.cpp */*.h
-	clang-format -i */*.cpp */*.h
+	clang-format -n */*.cpp */*.hpp
+	clang-format -i */*.cpp */*.hpp
 	rm -f .clang-format
 
