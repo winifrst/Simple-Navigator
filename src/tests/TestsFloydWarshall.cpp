@@ -1,5 +1,6 @@
-#include "../algorithms/GraphAlgorithms.hpp"
 #include <gtest/gtest.h>
+
+#include "../algorithms/GraphAlgorithms.hpp"
 
 const int INF_INT = std::numeric_limits<int>::max();
 bool MatricesEqual(const std::vector<std::vector<int>> &a,

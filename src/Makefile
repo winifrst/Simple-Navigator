@@ -1,6 +1,5 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Werror
-
 UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S),Darwin)
@@ -38,6 +37,15 @@ TEST_OBJ  = $(patsubst $(TEST_DIR)/%.cpp,$(BUILD_DIR)/$(TEST_DIR)/%.o,$(TEST_SRC
 
 all: $(GRAPH_LIB) $(ALG_LIB) $(TEST_BIN)
 
+app: $(GRAPH_LIB) $(ALG_LIB)
+	mkdir -p build/app
+	$(CXX) -c cli/Main.cpp -o main.o
+	$(CXX) main.o s21_graph.a s21_graph_algorithms.a -o build/app/simple_navigator
+	rm -f main.o
+
+run: app
+	./build/app/simple_navigator
+
 $(GRAPH_LIB): $(GRAPH_OBJ)
 	ar rcs $@ $^
 
@@ -64,3 +72,10 @@ clean:
 
 test: $(TEST_BIN)
 	./$(TEST_BIN)
+
+style_check:
+	cp ../materials/linters/.clang-format .
+	clang-format -n */*.cpp */*.hpp
+	clang-format -i */*.cpp */*.hpp
+	rm -f .clang-format
+

@@ -1,5 +1,6 @@
-#include "../algorithms/GraphAlgorithms.hpp"
 #include <gtest/gtest.h>
+
+#include "../algorithms/GraphAlgorithms.hpp"
 
 TEST(DijkstraAlgorithmTest, SingleEdgeGraph) {
   Graph graph;
@@ -137,8 +138,7 @@ TEST(DijkstraAlgorithmTest, Large100NodeGraph) {
 
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
-      if (i != j)
-        matrix[i][j] = j + 1;
+      if (i != j) matrix[i][j] = j + 1;
     }
   }
   graph.SetAdjacencyMatrix(matrix);
