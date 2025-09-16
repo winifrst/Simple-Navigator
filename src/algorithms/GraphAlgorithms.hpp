@@ -6,8 +6,14 @@
 
 #include "../containers/Queue.hpp"
 #include "../containers/Stack.hpp"
+
+// ToDo Здесь нужно подумать! "При этом сам класс GraphAlgorithms не должен ничего знать о внутреннем представлении графа из класса Graph." Мб использовать абстрактный класс ??? Скорее всего его не исключить.
 #include "../graph/Graph.hpp"
 
+
+// ToDo Добавить doxygen документацию
+
+// ToDo Вынести namespace
 class GraphAlgorithms {
  public:
   static long long GetShortestPathBetweenVertices(Graph &graph, int vertex1,
@@ -16,6 +22,10 @@ class GraphAlgorithms {
       Graph &graph);
   static std::vector<int> BreadthFirstSearch(Graph &graph, int start_vertex);
   static std::vector<int> DepthFirstSearch(Graph &graph, int start_vertex);
+
+// ToDo Реализовать GetShortestPathsBetweenAllVertices(Graph &graph)
+
+// ToDo Реализовать SolveTravelingSalesmanProblem(Graph &graph)
 
  private:
   GraphAlgorithms() = default;

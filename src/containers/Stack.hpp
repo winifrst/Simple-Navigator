@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 
+// ToDo Добавить doxygen документацию
+
 template <typename T>
 class Stack {
   using value_type = T;

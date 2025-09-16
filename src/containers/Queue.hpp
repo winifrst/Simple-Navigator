@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 
+// ToDo Добавить doxygen документацию
+
 template <typename T>
 class Queue {
   using value_type = T;
