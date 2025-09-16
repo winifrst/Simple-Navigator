@@ -3,6 +3,7 @@
 #include <limits>
 
 const long long INF = std::numeric_limits<long long>::max();
+const int INF_INT = std::numeric_limits<int>::max();
 
 long long GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph,
                                                           int vertex1,
@@ -51,4 +52,24 @@ long long GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph,
   }
 
   return dist[vertex2 - 1];
+}
+
+std::vector<std::vector<int>>
+GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
+  std::vector<std::vector<int>> adj_matrix = graph.GetAdjacencyMatrix();
+  int vertices_count = graph.GetVerticesCount();
+  std::vector<std::vector<int>> dist = adj_matrix;
+
+  for (int k = 0; k < vertices_count; ++k) {
+    for (int i = 0; i < vertices_count; ++i) {
+      for (int j = 0; j < vertices_count; ++j) {
+        if (i == j) {
+          dist[i][j] = 0;
+        } else if (dist[i][k] < INF_INT / 2 && dist[k][j] < INF_INT / 2) {
+          dist[i][j] = std::min(dist[i][j], dist[i][k] + dist[k][j]);
+        }
+      }
+    }
+  }
+  return dist;
 }
