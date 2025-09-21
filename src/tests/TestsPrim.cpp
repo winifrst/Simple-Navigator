@@ -1,6 +1,7 @@
+#include <gtest/gtest.h>
+
 #include "../algorithms/GraphAlgorithms.hpp"
 #include "TestUtils.hpp"
-#include <gtest/gtest.h>
 
 TEST(PrimAlgorithmTest, SingleVertex) {
   Graph graph;

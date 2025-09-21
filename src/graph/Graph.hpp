@@ -22,11 +22,7 @@ class Graph {
 
   int GetVerticesCount() const { return verticesCount; }
   // ToDo Удалить неискользуемые комменты
-  // std::vector<std::vector<int>> GetAdjacencyMatrix() const;
   const std::vector<std::vector<int>>& GetAdjacencyMatrix() const;
-
-  // ToDo Удалить неискользуемые комменты
-  // void SetVerticesCount(const int newCount) { verticesCount = newCount; }
   void SetAdjacencyMatrix(const std::vector<std::vector<int>>& matrix);
 
  private:

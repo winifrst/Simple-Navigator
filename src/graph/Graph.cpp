@@ -108,10 +108,6 @@ void Graph::PrintVertexName(FILE* file, int i) {
   }
 }
 
-// std::vector<std::vector<int>> Graph::GetAdjacencyMatrix() const {
-//   return adjacencyMatrix;
-// }
-
 const std::vector<std::vector<int>>& Graph::GetAdjacencyMatrix() const {
   return adjacencyMatrix;
 }

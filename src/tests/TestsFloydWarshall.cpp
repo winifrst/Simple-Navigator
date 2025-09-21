@@ -1,11 +1,7 @@
-// <<<<<<< HEAD
-// =======
-// #include "../algorithms/GraphAlgorithms.hpp"
-#include "TestUtils.hpp"
-// >>>>>>> origin/prim
 #include <gtest/gtest.h>
 
 #include "../algorithms/GraphAlgorithms.hpp"
+#include "TestUtils.hpp"
 
 const int INF_INT = std::numeric_limits<int>::max();
 

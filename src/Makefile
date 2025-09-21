@@ -35,7 +35,7 @@ TEST_OBJ  = $(patsubst $(TEST_DIR)/%.cpp,$(BUILD_DIR)/$(TEST_DIR)/%.o,$(TEST_SRC
 
 .PHONY: all clean test $(GRAPH_LIB) $(ALG_LIB)
 
-all: clean $(TEST_BIN)
+all: clean app $(TEST_BIN)
 
 app: $(GRAPH_LIB) $(ALG_LIB)
 	mkdir -p build/app
