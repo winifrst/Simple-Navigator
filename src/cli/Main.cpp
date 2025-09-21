@@ -188,7 +188,7 @@ void Prim(Data* data) {
   //       "\nThe graph is not initialized. Please load the graph from file "
   //       "first.\n");
   // }
-  data->state = 0;
+  // data->state = 0;
 }
 
 /**

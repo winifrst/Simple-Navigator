@@ -1,6 +1,5 @@
 #include "Graph.hpp"
 
-
 // ToDo Вынести namespace
 int Graph::LoadGraphFromFile(std::string c_filename) {
   int error = EXIT_SUCCESS;

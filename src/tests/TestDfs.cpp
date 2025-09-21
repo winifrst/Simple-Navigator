@@ -9,7 +9,7 @@
 
 TEST(DFSTest, EmptyGraph) {
   Graph emptyGraph;
-  // emptyGraph.verticesCount = 0;
+
   auto result = GraphAlgorithms::DepthFirstSearch(emptyGraph, 0);
   EXPECT_TRUE(result.empty());
 }

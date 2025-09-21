@@ -8,7 +8,7 @@
 
 // ToDo Добавить doxygen документацию
 
-//ToDo Вынесте namespace
+// ToDo Вынесте namespace
 class Graph {
  private:
   std::vector<std::vector<int>> adjacencyMatrix;

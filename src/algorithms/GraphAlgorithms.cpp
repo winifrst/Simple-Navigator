@@ -82,7 +82,7 @@ std::vector<int> GraphAlgorithms::BreadthFirstSearch(Graph &graph,
   }
 
   std::vector<bool> visited(graph.GetVerticesCount(), false);
-  Queue<int> grays;
+  Queue grays;
 
   grays.Push(start_vertex);
   visited[start_vertex] = true;
@@ -100,7 +100,7 @@ std::vector<int> GraphAlgorithms::BreadthFirstSearch(Graph &graph,
 
 void GraphAlgorithms::GetBreadthNeighbors(
     const std::vector<std::vector<int>> &adjacencyMatrix, int current_vertex,
-    Queue<int> &grays, std::vector<bool> &visited) {
+    Queue &grays, std::vector<bool> &visited) {
   int size = adjacencyMatrix.size();
   if (current_vertex < 0 || current_vertex >= size) {
     return;
@@ -123,7 +123,7 @@ std::vector<int> GraphAlgorithms::DepthFirstSearch(Graph &graph,
   }
 
   std::vector<bool> visited(graph.GetVerticesCount(), false);
-  Stack<int> grays;
+  Stack grays;
 
   grays.Push(start_vertex);
 
@@ -144,7 +144,7 @@ std::vector<int> GraphAlgorithms::DepthFirstSearch(Graph &graph,
 
 void GraphAlgorithms::GetDepthNeighbors(
     const std::vector<std::vector<int>> &adjacencyMatrix, int current_vertex,
-    Stack<int> &grays, std::vector<bool> &visited) {
+    Stack &grays, std::vector<bool> &visited) {
   int size = adjacencyMatrix.size();
   if (current_vertex < 0 || current_vertex >= size) {
     return;

@@ -46,11 +46,25 @@ app: $(GRAPH_LIB) $(ALG_LIB)
 run: app
 	./build/app/simple_navigator
 
+s21_queue.o: containers/Queue.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+s21_queue: s21_queue.o
+	ar rcs s21_queue.a s21_queue.o
+	rm -f s21_queue.o
+
+s21_stack.o: containers/Stack.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+s21_stack: s21_stack.o
+	ar rcs s21_stack.a s21_stack.o
+	rm -f s21_stack.o
+
 $(GRAPH_LIB): $(GRAPH_OBJ)
 	ar rcs $@ $^
 
-$(ALG_LIB): $(ALG_OBJ)
-	ar rcs $@ $^
+$(ALG_LIB): $(ALG_OBJ) s21_queue.o s21_stack.o
+	ar rcs $@ $^ 
 
 $(BUILD_DIR)/$(GRAPH_DIR)/%.o: $(GRAPH_DIR)/%.cpp
 	@mkdir -p $(dir $@)

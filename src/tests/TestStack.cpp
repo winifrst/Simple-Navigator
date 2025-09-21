@@ -3,13 +3,13 @@
 #include "../containers/Stack.hpp"
 
 TEST(StackTest, DefaultConstructor) {
-  Stack<int> stack;
+  Stack stack;
   EXPECT_TRUE(stack.Empty());
   EXPECT_EQ(stack.Size(), 0);
 }
 
 TEST(StackTest, Push) {
-  Stack<int> stack;
+  Stack stack;
   stack.Push(1);
   EXPECT_FALSE(stack.Empty());
   EXPECT_EQ(stack.Size(), 1);
@@ -17,7 +17,7 @@ TEST(StackTest, Push) {
 }
 
 TEST(StackTest, Pop) {
-  Stack<int> stack;
+  Stack stack;
   stack.Push(1);
   stack.Push(2);
   stack.Pop();
@@ -28,7 +28,7 @@ TEST(StackTest, Pop) {
 }
 
 TEST(StackTest, Top) {
-  Stack<int> stack;
+  Stack stack;
   stack.Push(1);
   EXPECT_EQ(stack.Top(), 1);
   stack.Push(2);
@@ -36,14 +36,14 @@ TEST(StackTest, Top) {
 }
 
 TEST(StackTest, Empty) {
-  Stack<int> stack;
+  Stack stack;
   EXPECT_TRUE(stack.Empty());
   stack.Push(1);
   EXPECT_FALSE(stack.Empty());
 }
 
 TEST(StackTest, Clear) {
-  Stack<int> stack;
+  Stack stack;
   stack.Push(1);
   stack.Push(2);
   stack.Clear();
@@ -52,11 +52,11 @@ TEST(StackTest, Clear) {
 }
 
 TEST(StackTest, PopEmpty) {
-  Stack<int> stack;
+  Stack stack;
   EXPECT_THROW(stack.Pop(), std::out_of_range);
 }
 
 TEST(StackTest, TopEmpty) {
-  Stack<int> stack;
+  Stack stack;
   EXPECT_THROW(stack.Top(), std::out_of_range);
 }

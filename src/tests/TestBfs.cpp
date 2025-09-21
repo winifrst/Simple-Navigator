@@ -9,7 +9,7 @@
 
 TEST(BFSTest, EmptyGraph) {
   Graph emptyGraph;
-  // emptyGraph.verticesCount = 0;
+
   auto result = GraphAlgorithms::BreadthFirstSearch(emptyGraph, 0);
   EXPECT_TRUE(result.empty());
 }
@@ -59,7 +59,6 @@ TEST(BFSTest, InvalidStartVertex) {
 
 TEST(SearchAlgorithmsTest, BFSvsDFS_MoreComplexGraph) {
   Graph graph;
-  // graph.verticesCount = 7;
 
   graph.SetAdjacencyMatrix({{0, 1, 1, 0, 0, 0, 0},
                             {0, 0, 0, 1, 1, 0, 0},
