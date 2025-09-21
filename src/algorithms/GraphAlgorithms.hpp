@@ -23,10 +23,7 @@ class GraphAlgorithms {
       Graph &graph);
   static std::vector<int> BreadthFirstSearch(Graph &graph, int start_vertex);
   static std::vector<int> DepthFirstSearch(Graph &graph, int start_vertex);
-
-  // ToDo Реализовать GetShortestPathsBetweenAllVertices(Graph &graph)
-
-  // ToDo Реализовать SolveTravelingSalesmanProblem(Graph &graph)
+  static std::vector<std::vector<int>> GetLeastSpanningTree(Graph &graph);
 
  private:
   GraphAlgorithms() = default;

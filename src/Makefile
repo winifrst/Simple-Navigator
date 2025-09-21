@@ -12,7 +12,7 @@ ifeq ($(UNAME_S),Darwin)
     GTEST_LIBS := -L/usr/local/lib -lgtest -lgtest_main -pthread
   endif
 else
-  GTEST_INCLUDE :=
+  GTEST_INCLUDE := 
   GTEST_LIBS := -lgtest -lgtest_main -pthread
 endif
 
@@ -35,7 +35,7 @@ TEST_OBJ  = $(patsubst $(TEST_DIR)/%.cpp,$(BUILD_DIR)/$(TEST_DIR)/%.o,$(TEST_SRC
 
 .PHONY: all clean test $(GRAPH_LIB) $(ALG_LIB)
 
-all: $(GRAPH_LIB) $(ALG_LIB) $(TEST_BIN)
+all: clean $(TEST_BIN)
 
 app: $(GRAPH_LIB) $(ALG_LIB)
 	mkdir -p build/app
@@ -78,7 +78,7 @@ $(BUILD_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) -I$(GRAPH_DIR) -I$(ALG_DIR) -c $< -o $@
 
-$(TEST_BIN): $(GRAPH_LIB) $(ALG_LIB) $(TEST_OBJ)
+$(TEST_BIN): clean $(GRAPH_LIB) $(ALG_LIB) $(TEST_OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ $(TEST_OBJ) $(GRAPH_LIB) $(ALG_LIB) $(GTEST_LIBS)
 
 clean:

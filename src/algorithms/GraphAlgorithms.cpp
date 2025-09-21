@@ -54,9 +54,8 @@ long long GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph,
 
 std::vector<std::vector<int>>
 GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
-  std::vector<std::vector<int>> adj_matrix = graph.GetAdjacencyMatrix();
   int vertices_count = graph.GetVerticesCount();
-  std::vector<std::vector<int>> dist = adj_matrix;
+  std::vector<std::vector<int>> dist = graph.GetAdjacencyMatrix();
 
   for (int k = 0; k < vertices_count; ++k) {
     for (int i = 0; i < vertices_count; ++i) {
@@ -155,4 +154,52 @@ void GraphAlgorithms::GetDepthNeighbors(
       grays.Push(j);
     }
   }
+}
+
+std::vector<std::vector<int>> GraphAlgorithms::GetLeastSpanningTree(
+    Graph &graph) {
+  int vertices_count = graph.GetVerticesCount();
+  std::vector<std::vector<int>> adj_matrix = graph.GetAdjacencyMatrix();
+
+  std::vector<bool> in_mst(vertices_count, false);
+
+  std::vector<int> min_edge_weight(vertices_count, INF_INT);
+  min_edge_weight[0] = 0;
+
+  std::vector<int> parent(vertices_count, -1);
+
+  for (int i = 0; i < vertices_count - 1; ++i) {
+    int min_dist = INF_INT;
+    int min_index = -1;
+    for (int j = 0; j < vertices_count; ++j) {
+      if (!in_mst[j] && min_edge_weight[j] < min_dist) {
+        min_dist = min_edge_weight[j];
+        min_index = j;
+      }
+    }
+    if (min_index == -1) {
+      break;
+    }
+
+    in_mst[min_index] = true;
+    for (int k = 0; k < vertices_count; ++k) {
+      if (adj_matrix[min_index][k] != 0 && !in_mst[k] &&
+          adj_matrix[min_index][k] < min_edge_weight[k]) {
+        min_edge_weight[k] = adj_matrix[min_index][k];
+        parent[k] = min_index;
+      }
+    }
+  }
+
+  std::vector<std::vector<int>> mst_matrix(vertices_count,
+                                           std::vector<int>(vertices_count, 0));
+
+  for (int i = 1; i < vertices_count; ++i) {
+    if (parent[i] != -1) {
+      int weight = adj_matrix[i][parent[i]];
+      mst_matrix[i][parent[i]] = weight;
+      mst_matrix[parent[i]][i] = weight;
+    }
+  }
+  return mst_matrix;
 }
