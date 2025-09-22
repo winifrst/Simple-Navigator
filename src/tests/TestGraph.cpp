@@ -167,7 +167,7 @@ TEST(GraphExportTest, ExportUndirectedGraphToDot) {
   const std::string testFilename = "test_undirected.dot";
 
   Graph graph;
-  // graph.GetVerticesCount() = 3;
+
   graph.SetAdjacencyMatrix({{0, 1, 0}, {1, 0, 1}, {0, 1, 0}});
 
   EXPECT_EQ(EXIT_SUCCESS, graph.ExportGraphToDot(testFilename));
@@ -197,7 +197,7 @@ TEST(GraphExportTest, ExportDirectedGraphToDot) {
   const std::string testFilename = "test_directed.dot";
 
   Graph graph;
-  // graph.GetVerticesCount() = 2;
+
   graph.SetAdjacencyMatrix({{0, 1}, {0, 0}});
 
   EXPECT_EQ(EXIT_SUCCESS, graph.ExportGraphToDot(testFilename));
@@ -225,7 +225,7 @@ TEST(GraphExportTest, ExportEmptyGraphToDot) {
   const std::string testFilename = "test_empty.dot";
 
   Graph graph;
-  // graph.GetVerticesCount() = 0;
+
   graph.SetAdjacencyMatrix({});
 
   EXPECT_EQ(EXIT_FAILURE, graph.ExportGraphToDot(testFilename));
@@ -236,7 +236,7 @@ TEST(GraphExportTest, ExportGraphWithEmptyMatrixToDot) {
   const std::string testFilename = "test_empty_matrix.dot";
 
   Graph graph;
-  // graph.GetVerticesCount() = 2;
+
   graph.SetAdjacencyMatrix({});
 
   EXPECT_EQ(EXIT_FAILURE, graph.ExportGraphToDot(testFilename));
@@ -245,7 +245,7 @@ TEST(GraphExportTest, ExportGraphWithEmptyMatrixToDot) {
 
 TEST(GraphExportTest, ExportUndirectedGraphCompareWithTrue1) {
   Graph graph;
-  // graph.GetVerticesCount() = 4;
+
   graph.SetAdjacencyMatrix(
       {{0, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 0, 0}, {0, 1, 0, 0}});
 
@@ -256,7 +256,7 @@ TEST(GraphExportTest, ExportUndirectedGraphCompareWithTrue1) {
 
 TEST(GraphExportTest, ExportDirectedGraphCompareWithTrue2) {
   Graph graph;
-  // graph.GetVerticesCount() = 4;
+
   graph.SetAdjacencyMatrix(
       {{0, 1, 0, 0}, {0, 0, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}});
 
@@ -267,7 +267,7 @@ TEST(GraphExportTest, ExportDirectedGraphCompareWithTrue2) {
 
 TEST(GraphExportTest, ExportUndirectedGraphCompareWithFalse1) {
   Graph graph;
-  // graph.GetVerticesCount() = 4;
+
   graph.SetAdjacencyMatrix(
       {{0, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 0, 0}, {0, 1, 0, 0}});
 
@@ -278,7 +278,7 @@ TEST(GraphExportTest, ExportUndirectedGraphCompareWithFalse1) {
 
 TEST(GraphExportTest, ExportDirectedGraphCompareWithFalse2) {
   Graph graph;
-  // graph.GetVerticesCount() = 4;
+
   graph.SetAdjacencyMatrix(
       {{0, 1, 0, 0}, {0, 0, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}});
 
@@ -289,7 +289,7 @@ TEST(GraphExportTest, ExportDirectedGraphCompareWithFalse2) {
 
 TEST(GraphExportTest, ExportGraphWithZeroVertices) {
   Graph graph;
-  // graph.GetVerticesCount() = 0;
+
   graph.SetAdjacencyMatrix({});
 
   EXPECT_EQ(EXIT_FAILURE, graph.ExportGraphToDot("export.dot"));
@@ -298,7 +298,7 @@ TEST(GraphExportTest, ExportGraphWithZeroVertices) {
 
 TEST(GraphExportTest, ExportLargeGraphWithoutEdges) {
   Graph graph;
-  // graph.GetVerticesCount() = 27;
+
   graph.SetAdjacencyMatrix(
       std::vector<std::vector<int>>(27, std::vector<int>(27, 0)));
 
@@ -309,7 +309,7 @@ TEST(GraphExportTest, ExportLargeGraphWithoutEdges) {
 
 TEST(GraphExportTest, ExportLargeGraphWithEdgesAndVertexNames) {
   Graph graph;
-  // graph.GetVerticesCount() = 29;
+
   std::vector<std::vector<int>> matrix(29, std::vector<int>(29, 0));
 
   matrix[26][27] = 1;
@@ -333,35 +333,9 @@ TEST(GraphExportTest, ExportLargeGraphWithEdgesAndVertexNames) {
 
 TEST(GraphExportTest, ExportGraphWithEmptyMatrix) {
   Graph graph;
-  // graph.GetVerticesCount() = 3;
+
   graph.SetAdjacencyMatrix({});
 
   EXPECT_EQ(EXIT_FAILURE, graph.ExportGraphToDot("export.dot"));
   EXPECT_FALSE(std::filesystem::exists("export.dot"));
 }
-
-// TEST(GraphExportTest, ExportGraphWithMismatchedMatrixSize) {
-//   Graph graph;
-//   graph.SetVerticesCount(3);
-//   graph.SetAdjacencyMatrix({{0, 1}, {1, 0}});
-
-//   EXPECT_EQ(EXIT_FAILURE, graph.ExportGraphToDot("export.dot"));
-//   EXPECT_FALSE(std::filesystem::exists("export.dot"));
-// }
-
-// TEST(GraphExportTest, ExportGraphWithWeights) {
-//   Graph graph;
-//   graph.GetVerticesCount() = 3;
-//   graph.GetAdjacencyMatrix() = {{0, 5, 0}, {5, 0, 2}, {0, 2, 0}};
-
-//   EXPECT_EQ(EXIT_SUCCESS, graph.ExportGraphToDot("export.dot"));
-
-//   std::ifstream file("export.dot");
-//   std::string content((std::istreambuf_iterator<char>(file)),
-//                       std::istreambuf_iterator<char>());
-
-//   EXPECT_TRUE(content.find("a -- b") != std::string::npos);
-//   EXPECT_TRUE(content.find("b -- c") != std::string::npos);
-
-//   RemoveTestFile("export.dot");
-// }

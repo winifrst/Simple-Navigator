@@ -21,9 +21,6 @@ void MainLoop(Data* data) {
       FsmAction(data);
     }
   }
-  // if (!data->graph.GetAdjacencyMatrix().empty()) {
-  //   s21_remove_graph(&data->graph);
-  // }
 }
 
 /**
@@ -31,10 +28,6 @@ void MainLoop(Data* data) {
  * @param data указатель на граф
  */
 void LoadGraph(Data* data) {
-  // надо ли очищать старую матрицу смежностей?
-  // if (!data->graph.GetAdjacencyMatrix().empty()) {
-  //   data->graph.GetAdjacencyMatrix().clear();
-  // }
   char filename[256] = {0};
   printf("\nEnter graph filename:\n> ");
   scanf("%s", filename);
@@ -44,31 +37,27 @@ void LoadGraph(Data* data) {
   } else {
     printf("%s: %s\n", filename, strerror(errno));
     filename[0] = '\0';
+    printf("\033[1;36m");
     printf(
         "The following graph will be loaded: "
         "../data-samples/true_graph_3.txt\n");
+    printf("\033[0m");
   }
 
   int load_result = data->graph.LoadGraphFromFile(
       filename[0] ? filename : "../data-samples/true_graph_3.txt");
   if (load_result == EXIT_SUCCESS) {
     data->state = 0;
-    printf("\nGraph loaded successfully\n");
+
+    PrintHeader("Graph loaded successfully");
     PrintMatrix(data->graph.GetAdjacencyMatrix());
+    PrintResultFooter();
   } else {
+    printf("\033[1;31m");
     printf("An error occurred while loading the graph from a file.\n");
+    printf("\033[0m");
     data->state = 0;
   }
-  // if ((data->state = data->graph.LoadGraphFromFile(
-  //          filename[0] ? filename : "../data-samples/true_graph_3.txt")) ==
-  //     EXIT_SUCCESS) {
-  //   printf("\nGraph loaded successfully\n");
-  //   PrintMatrix(&data->graph);
-  //   data->state = 0;
-  // } else {
-  //   printf("An error occurred while LoadGraph a graph from a file.\n");
-  // }
-  // data->state = 0;
 }
 
 /**
@@ -79,14 +68,17 @@ void ExportGraph(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
     if ((data->error = data->graph.ExportGraphToDot("export.dot")) ==
         EXIT_SUCCESS) {
-      printf("\nGraph exported successfully in export.dot\n");
+      PrintHeader("Graph exported successfully in export.dot");
+
     } else {
-      printf("\nAn error occurred while ExportGraph a graph from a file.\n");
+      PrintHeader("An error occurred while ExportGraph a graph from a file.");
     }
   } else {
+    printf("\033[1;31m");
     printf(
         "\nThe graph is not initialized. Please load the graph from file "
         "first.\n");
+    printf("\033[0m");
   }
   data->state = 0;
 }
@@ -98,15 +90,21 @@ void ExportGraph(Data* data) {
 void BFS(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
     std::vector<int> result;
-
-    printf("Enter START vertex:\n> ");
+    printf("\033[1;36m");
+    printf("Enter START vertex:\n");
+    printf("\033[0m> ");
     int start_vertex = GetUserInputInt(1, data->graph.GetVerticesCount()) - 1;
     result = GraphAlgorithms::BreadthFirstSearch(data->graph, start_vertex);
+
+    PrintHeader("BFS traversal result");
+    putchar('\n');
     PrintVector(result);
   } else {
+    printf("\033[1;31m");
     printf(
         "\nThe graph is not initialized. Please load the graph from file "
         "first.\n");
+    printf("\033[0m");
   }
   data->state = 0;
 }
@@ -119,14 +117,21 @@ void DFS(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
     std::vector<int> result;
 
-    printf("Enter START vertex:\n> ");
+    printf("\033[1;36m");
+    printf("Enter START vertex:\n");
+    printf("\033[0m> ");
     int start_vertex = GetUserInputInt(1, data->graph.GetVerticesCount()) - 1;
     result = GraphAlgorithms::DepthFirstSearch(data->graph, start_vertex);
+    PrintHeader("DFS traversal result");
+    putchar('\n');
     PrintVector(result);
+
   } else {
+    printf("\033[1;31m");
     printf(
         "\nThe graph is not initialized. Please load the graph from file "
         "first.\n");
+    printf("\033[0m");
   }
   data->state = 0;
 }
@@ -139,17 +144,26 @@ void Dijkstra(Data* data) {
   std::vector<std::vector<int>> adjacencyMatrix =
       data->graph.GetAdjacencyMatrix();
   if (!adjacencyMatrix.empty()) {
-    printf("Enter START vertex and END vertex:\n> ");
+    printf("\033[1;36m");
+    printf("Enter START vertex and END vertex:\n");
+    printf("\033[0m> ");
     int vertex_1 = GetUserInputInt(1, data->graph.GetVerticesCount());
     int vertex_2 = GetUserInputInt(1, data->graph.GetVerticesCount());
-    printf("Shortest path distance: %lld\n",
-           GraphAlgorithms::GetShortestPathBetweenVertices(data->graph,
-                                                           vertex_1, vertex_2));
+
+    PrintHeader("Shortest path distance");
+    printf("\033[1;32m");
+    printf("\n%lld\n", GraphAlgorithms::GetShortestPathBetweenVertices(
+                           data->graph, vertex_1, vertex_2));
+
+    printf("\033[0m");
   } else {
+    printf("\033[1;31m");
     printf(
         "\nThe graph is not initialized. Please load the graph from file "
         "first.\n");
   }
+  printf("\033[0m");
+
   data->state = 0;
 }
 
@@ -158,16 +172,21 @@ void Dijkstra(Data* data) {
  * @param data Указатель на набор данных
  */
 void Floyd(Data* data) {
-  Graph tmp;
-  if (!data->graph.GetAdjacencyMatrix().empty() ||
-      data->graph.GetVerticesCount() <= 0) {
+  std::vector<std::vector<int>> adjacencyMatrix =
+      data->graph.GetAdjacencyMatrix();
+  if (!adjacencyMatrix.empty()) {
     std::vector<std::vector<int>> result =
         GraphAlgorithms::GetShortestPathsBetweenAllVertices(data->graph);
+
+    PrintHeader("Shortest paths between all pairs of vertices in the graph");
     PrintMatrix(result);
+    PrintResultFooter();
   } else {
+    printf("\033[1;31m");
     printf(
         "\nThe graph is not initialized. Please load the graph from file "
         "first.\n");
+    printf("\033[0m");
   }
   data->state = 0;
 }
@@ -177,18 +196,33 @@ void Floyd(Data* data) {
  * @param data Указатель на набор данных
  */
 void Prim(Data* data) {
-  // putchar('a');
-  // Graph tmp = {0};
-  // if (s21_create_graph(data->graph.size, &tmp) == EXIT_SUCCESS) {
-  //   get_least_spanning_tree(&data->graph, tmp.matrix);
-  //   PrintMatrix(&tmp);
-  //   s21_remove_graph(&tmp);
-  // } else {
-  //   printf(
-  //       "\nThe graph is not initialized. Please load the graph from file "
-  //       "first.\n");
-  // }
+  std::vector<std::vector<int>> adjacencyMatrix =
+      data->graph.GetAdjacencyMatrix();
+
+  if (!adjacencyMatrix.empty()) {
+    std::vector<std::vector<int>> result =
+        GraphAlgorithms::GetLeastSpanningTree(data->graph);
+
+    PrintHeader("The minimum spanning tree in the graph");
+    PrintMatrix(result);
+    PrintResultFooter();
+  }
+
+  else {
+    printf("\033[1;31m");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
+    printf("\033[0m");
+  }
   data->state = 0;
+}
+
+long long GetTime() {
+  struct timeval t;
+  gettimeofday(&t, NULL);
+
+  return (long long)t.tv_sec * 1000 + t.tv_usec / 1000;
 }
 
 /**
@@ -200,43 +234,46 @@ void Kamen(Data* data) {
   //   printf("Enter number of iterations:\n> ");
   //   int iter = GetUserInputInt(1, INT_MAX);
 
-  //   long long int t = get_time();
+  //   long long int t = GetTime();
   //   tsm_result result_ant;
   //   for (int i = 0; i < ((iter > 100) ? 100 : iter); i++) {
   //     result_ant = solve_traveling_salesman_problem(&data->graph);
   //     free(result_ant.vertices);
   //   }
   //   double td =
-  //       (double)(get_time() - t) / 1000 * ((iter > 100) ? iter / 100 : 1);
+  //       (double)(GetTime() - t) / 1000 * ((iter > 100) ? iter / 100 : 1);
   //   printf("         Ant time: %.3lf s\n", td);
   //   printf("      path length: %.0f\n", result_ant.distance);
 
-  //   t = get_time();
+  //   t = GetTime();
   //   tsm_result result_brute = Kamen_brute_force(&data->graph);
-  //   td = (double)(get_time() - t) / 1000 * iter;
+  //   td = (double)(GetTime() - t) / 1000 * iter;
   //   printf(" Brute-force time: %.3lf s\n", td);
   //   printf("      path length: %.0f\n", result_brute.distance);
   //   free(result_brute.vertices);
 
-  //   t = get_time();
+  //   t = GetTime();
   //   tsm_result result_close;
   //   for (int i = 0; i < iter; i++) {
   //     result_close = Kamen_close_points(&data->graph);
   //     free(result_close.vertices);
   //   }
-  //   td = (double)(get_time() - t) / 1000;
+  //   td = (double)(GetTime() - t) / 1000;
   //   printf("Close points time: %.3lf s\n", td);
   //   printf("      path length: %.0f\n", result_close.distance);
   // } else {
+  //   printf("\033[1;31m");
   //   printf(
   //       "\nThe graph is not initialized. Please load the graph from file "
   //       "first.\n");
+  //   printf("\033[0m");
   // }
   data->state = 0;
 }
 
 /**
- * Считывание числа из консоли ввода пользователя в диапазоне от start до end
+ * Считывание числа из консоли ввода пользователя в диапазоне от start до
+ * end
  * @param start Начало диапазона
  * @param end Конец диапазона
  * @return введенное значение в диапазоне start < x < end
@@ -247,7 +284,10 @@ int GetUserInputInt(int start, int end) {
   scanf("%s", s);
   while (sscanf(s, "%d", &user_choice) != 1 || user_choice < start ||
          user_choice > end) {
-    printf("Incorrect input. Try again: ");
+    printf("\033[1;31m");
+    printf("Incorrect input. Try again\n");
+    printf("\033[0m> ");
+
     scanf("%s", s);
   }
   return user_choice;
@@ -258,7 +298,9 @@ int GetUserInputInt(int start, int end) {
  * @return true
  */
 int PrintMainMenu() {
-  printf("\nWhat do you want to do?\n");
+  printf("\033[1;36m");
+  printf("\n================= MAIN MENU =================\n");
+  printf("\033[0m");
   printf("1. Load the original graph from a file\n");
   printf("2. Export graph to DOT format\n");
   printf("3. Traverse the graph in breadth (BFS)\n");
@@ -271,30 +313,19 @@ int PrintMainMenu() {
       "graph "
       "(Floyd-Warshall algorithm)\n");
   printf(
-      "7. (TO DO) Search for the minimum spanning tree in the graph (Prim's "
+      "7. Search for the minimum spanning tree in the graph "
+      "(Prim's "
       "algorithm)\n");
   printf(
-      "8. (TO DO) Solve the Salesman problem (Ant colony, Brute-Force, Close "
+      "8. (TO DO) Solve the Salesman problem (Ant colony, Brute-Force, "
+      "Close "
       "points)\n");
   printf("9. Exit\n");
-  printf("> ");
+
+  printf("\033[0m> ");
+
   return true;
 }
-
-// /**
-//  * Выводит размер графа и матрицу смежности на экран
-//  * @param graph указатель на граф
-//  */
-// void PrintMatrix(const Graph* graph) {
-//   printf("%+d\n", graph->verticesCount);
-//   for (int i = 0; i < graph->verticesCount; i++) {
-//     for (int j = 0; j < graph->verticesCount; j++) {
-//       printf(graph->adjacencyMatrix[i][j] == -1 ? " -- " : "%3d 5",
-//              graph->adjacencyMatrix[i][j]);
-//     }
-//     printf("\n");
-//   }
-// }
 
 /**
  * Выводит размер графа и матрицу смежности на экран
@@ -339,18 +370,23 @@ void PaintTyan(Data* data) {
   data->state = 0;
 }
 
-// /**
-//  * Печать массива
-//  * @param count количество элементов
-//  * @param array указатель на массив
-//  */
-// void print_array(int count, int* array) {
-//   int shift = 1;
-//   for (int i = 0; i < count; i++) {
-//     printf("%d ", array[i] + shift);
-//   }
-//   printf("\n");
-// }
+void PrintHeader(const char* title) {
+  int dashes = strlen(title) + 2;
+
+  printf("\n\033[1;32m+");
+  for (int i = 0; i < dashes; putchar('-'), i++);
+  printf("+\033[0m\n");
+
+  printf("\033[1;32m| %s |\033[0m", title);
+
+  printf("\n\033[1;32m+");
+  for (int i = 0; i < dashes; putchar('-'), i++);
+  printf("+\033[0m\n");
+}
+
+void PrintResultFooter() {
+  printf("\033[1;32m+------------------------------------------+\033[0m\n\n");
+}
 
 /**
  * Печать вектора

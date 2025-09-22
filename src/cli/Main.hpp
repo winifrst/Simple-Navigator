@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string.h>
+#include <sys/time.h>
 
 #include <climits>
 
@@ -19,6 +20,9 @@ int GetUserInputInt(int start, int end);
 int PrintMainMenu();
 void PrintMatrix(const std::vector<std::vector<int>>& adjacencyMatrix);
 void PrintVector(const std::vector<int>& result);
+void PrintHeader(const char* title);
+void PrintResultFooter();
+long long GetTime();
 
 typedef void (*FsmFunc)(Data* data);
 void PaintTyan(Data* data);

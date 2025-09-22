@@ -12,7 +12,7 @@ ifeq ($(UNAME_S),Darwin)
     GTEST_LIBS := -L/usr/local/lib -lgtest -lgtest_main -pthread
   endif
 else
-  GTEST_INCLUDE :=
+  GTEST_INCLUDE := 
   GTEST_LIBS := -lgtest -lgtest_main -pthread
 endif
 
@@ -35,7 +35,7 @@ TEST_OBJ  = $(patsubst $(TEST_DIR)/%.cpp,$(BUILD_DIR)/$(TEST_DIR)/%.o,$(TEST_SRC
 
 .PHONY: all clean test $(GRAPH_LIB) $(ALG_LIB)
 
-all: $(GRAPH_LIB) $(ALG_LIB) $(TEST_BIN)
+all: clean app $(TEST_BIN)
 
 app: $(GRAPH_LIB) $(ALG_LIB)
 	mkdir -p build/app
@@ -46,11 +46,25 @@ app: $(GRAPH_LIB) $(ALG_LIB)
 run: app
 	./build/app/simple_navigator
 
+s21_queue.o: containers/Queue.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+s21_queue: s21_queue.o
+	ar rcs s21_queue.a s21_queue.o
+	rm -f s21_queue.o
+
+s21_stack.o: containers/Stack.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+s21_stack: s21_stack.o
+	ar rcs s21_stack.a s21_stack.o
+	rm -f s21_stack.o
+
 $(GRAPH_LIB): $(GRAPH_OBJ)
 	ar rcs $@ $^
 
-$(ALG_LIB): $(ALG_OBJ)
-	ar rcs $@ $^
+$(ALG_LIB): $(ALG_OBJ) s21_queue.o s21_stack.o
+	ar rcs $@ $^ 
 
 $(BUILD_DIR)/$(GRAPH_DIR)/%.o: $(GRAPH_DIR)/%.cpp
 	@mkdir -p $(dir $@)
@@ -64,7 +78,7 @@ $(BUILD_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) -I$(GRAPH_DIR) -I$(ALG_DIR) -c $< -o $@
 
-$(TEST_BIN): $(GRAPH_LIB) $(ALG_LIB) $(TEST_OBJ)
+$(TEST_BIN): clean $(GRAPH_LIB) $(ALG_LIB) $(TEST_OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ $(TEST_OBJ) $(GRAPH_LIB) $(ALG_LIB) $(GTEST_LIBS)
 
 clean:

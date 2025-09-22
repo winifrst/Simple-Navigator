@@ -3,13 +3,13 @@
 #include "../containers/Queue.hpp"
 
 TEST(QueueTest, DefaultConstructor) {
-  Queue<int> queue;
+  Queue queue;
   EXPECT_TRUE(queue.Empty());
   EXPECT_EQ(queue.Size(), 0);
 }
 
 TEST(QueueTest, Push) {
-  Queue<int> queue;
+  Queue queue;
   queue.Push(1);
   EXPECT_FALSE(queue.Empty());
   EXPECT_EQ(queue.Size(), 1);
@@ -18,7 +18,7 @@ TEST(QueueTest, Push) {
 }
 
 TEST(QueueTest, Pop) {
-  Queue<int> queue;
+  Queue queue;
   queue.Push(1);
   queue.Push(2);
   queue.Pop();
@@ -29,7 +29,7 @@ TEST(QueueTest, Pop) {
 }
 
 TEST(QueueTest, Front) {
-  Queue<int> queue;
+  Queue queue;
   queue.Push(1);
   EXPECT_EQ(queue.Front(), 1);
   queue.Push(2);
@@ -37,7 +37,7 @@ TEST(QueueTest, Front) {
 }
 
 TEST(QueueTest, Back) {
-  Queue<int> queue;
+  Queue queue;
   queue.Push(1);
   EXPECT_EQ(queue.Back(), 1);
   queue.Push(2);
@@ -45,14 +45,14 @@ TEST(QueueTest, Back) {
 }
 
 TEST(QueueTest, Empty) {
-  Queue<int> queue;
+  Queue queue;
   EXPECT_TRUE(queue.Empty());
   queue.Push(1);
   EXPECT_FALSE(queue.Empty());
 }
 
 TEST(QueueTest, Clear) {
-  Queue<int> queue;
+  Queue queue;
   queue.Push(1);
   queue.Push(2);
   queue.Clear();
@@ -61,16 +61,16 @@ TEST(QueueTest, Clear) {
 }
 
 TEST(QueueTest, PopEmpty) {
-  Queue<int> queue;
+  Queue queue;
   EXPECT_THROW(queue.Pop(), std::out_of_range);
 }
 
 TEST(QueueTest, FrontEmpty) {
-  Queue<int> queue;
+  Queue queue;
   EXPECT_THROW(queue.Front(), std::out_of_range);
 }
 
 TEST(QueueTest, BackEmpty) {
-  Queue<int> queue;
+  Queue queue;
   EXPECT_THROW(queue.Back(), std::out_of_range);
 }
