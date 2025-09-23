@@ -33,4 +33,4 @@ void DFS(Data* data);
 void Dijkstra(Data* data);
 void Floyd(Data* data);
 void Prim(Data* data);
-void Kamen(Data* data);
+void TSP(Data* data);

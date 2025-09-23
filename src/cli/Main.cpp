@@ -15,7 +15,7 @@ void MainLoop(Data* data) {
     data->state = data->state * 10 + data->user_choice;
 
     FsmFunc fsm_table[9] = {PaintTyan, LoadGraph, ExportGraph, BFS,  DFS,
-                            Dijkstra,  Floyd,     Prim,        Kamen};
+                            Dijkstra,  Floyd,     Prim,        TSP};
     FsmFunc FsmAction = fsm_table[data->state];
     if (FsmAction) {
       FsmAction(data);
@@ -229,45 +229,29 @@ long long GetTime() {
  * Запуск решения задачи коммивояжёра
  * @param data указатель на граф
  */
-void Kamen(Data* data) {
-  // if (!data->graph.GetAdjacencyMatrix().empty()) {
-  //   printf("Enter number of iterations:\n> ");
-  //   int iter = GetUserInputInt(1, INT_MAX);
+void TSP(Data* data) {
+  if (!data->graph.GetAdjacencyMatrix().empty()) {
+    printf("Enter number of iterations:\n> ");
+    int iter = GetUserInputInt(1, INT_MAX);
 
-  //   long long int t = GetTime();
-  //   tsm_result result_ant;
-  //   for (int i = 0; i < ((iter > 100) ? 100 : iter); i++) {
-  //     result_ant = solve_traveling_salesman_problem(&data->graph);
-  //     free(result_ant.vertices);
-  //   }
-  //   double td =
-  //       (double)(GetTime() - t) / 1000 * ((iter > 100) ? iter / 100 : 1);
-  //   printf("         Ant time: %.3lf s\n", td);
-  //   printf("      path length: %.0f\n", result_ant.distance);
-
-  //   t = GetTime();
-  //   tsm_result result_brute = Kamen_brute_force(&data->graph);
-  //   td = (double)(GetTime() - t) / 1000 * iter;
-  //   printf(" Brute-force time: %.3lf s\n", td);
-  //   printf("      path length: %.0f\n", result_brute.distance);
-  //   free(result_brute.vertices);
-
-  //   t = GetTime();
-  //   tsm_result result_close;
-  //   for (int i = 0; i < iter; i++) {
-  //     result_close = Kamen_close_points(&data->graph);
-  //     free(result_close.vertices);
-  //   }
-  //   td = (double)(GetTime() - t) / 1000;
-  //   printf("Close points time: %.3lf s\n", td);
-  //   printf("      path length: %.0f\n", result_close.distance);
-  // } else {
-  //   printf("\033[1;31m");
-  //   printf(
-  //       "\nThe graph is not initialized. Please load the graph from file "
-  //       "first.\n");
-  //   printf("\033[0m");
-  // }
+    long long int t = GetTime();
+    TsmResult result_ant;
+    for (int i = 0; i < ((iter > 100) ? 100 : iter); i++) {
+      result_ant =
+          GraphAlgorithms::solve_traveling_salesman_problem(&data->graph);
+      free(result_ant.vertices);
+    }
+    double td =
+        (double)(GetTime() - t) / 1000 * ((iter > 100) ? iter / 100 : 1);
+    printf("         Ant time: %.3lf s\n", td);
+    printf("      path length: %.0f\n", result_ant.distance);
+  } else {
+    printf("\033[1;31m");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
+    printf("\033[0m");
+  }
   data->state = 0;
 }
 
