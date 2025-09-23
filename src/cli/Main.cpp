@@ -1,7 +1,7 @@
 #include "Main.hpp"
 
 int main() {
-  Data data = {0};
+  Data data = {0, 0, 0, Graph()};
   MainLoop(&data);
   return data.error;
 }
