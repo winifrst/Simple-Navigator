@@ -33,11 +33,11 @@ TEST(DFSTest, LargeGraph) {
   graph.LoadGraphFromFile("../data-samples/true_graph_3.txt");
   auto result = GraphAlgorithms::DepthFirstSearch(graph, 0);
 
-  EXPECT_EQ(result.size(), static_cast<const unsigned long>(11));
+  EXPECT_EQ(result.size(), 11);
   EXPECT_EQ(result[0], 0);
 
   std::set<int> uniqueVertices(result.begin(), result.end());
-  EXPECT_EQ(uniqueVertices.size(), static_cast<const unsigned long>(11));
+  EXPECT_EQ(uniqueVertices.size(), 11);
 }
 
 TEST(DFSTest, DirectedGraph) {
