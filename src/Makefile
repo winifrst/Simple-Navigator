@@ -25,18 +25,22 @@ BUILD_DIR = build
 
 GRAPH_LIB = $(BUILD_DIR)/s21_graph.a
 ALG_LIB = $(BUILD_DIR)/s21_graph_algorithms.a
+STACK_LIB = $(BUILD_DIR)/s21_stack.a
+QUEUE_LIB = $(BUILD_DIR)/s21_queue.a
 TEST_BIN = $(BUILD_DIR)/test_graph
 APP_BIN = $(BUILD_DIR)/app/simple_navigator
 
 GRAPH_SRC = $(wildcard $(GRAPH_DIR)/*.cpp)
 ALG_SRC = $(wildcard $(ALG_DIR)/*.cpp)
-CONTAINERS_SRC = $(wildcard $(CONTAINERS_DIR)/*.cpp)
+STACK_SRC = $(wildcard $(CONTAINERS_DIR)/Stack.cpp)
+QUEUE_SRC = $(wildcard $(CONTAINERS_DIR)/Queue.cpp)
 CLI_SRC = $(wildcard $(CLI_DIR)/*.cpp)
 TEST_SRC = $(wildcard $(TEST_DIR)/*.cpp)
 
 GRAPH_OBJ = $(patsubst $(GRAPH_DIR)/%.cpp,$(BUILD_DIR)/$(GRAPH_DIR)/%.o,$(GRAPH_SRC))
 ALG_OBJ = $(patsubst $(ALG_DIR)/%.cpp,$(BUILD_DIR)/$(ALG_DIR)/%.o,$(ALG_SRC))
-CONTAINERS_OBJ = $(patsubst $(CONTAINERS_DIR)/%.cpp,$(BUILD_DIR)/$(CONTAINERS_DIR)/%.o,$(CONTAINERS_SRC))
+STACK_OBJ = $(patsubst $(CONTAINERS_DIR)/%.cpp,$(BUILD_DIR)/$(CONTAINERS_DIR)/%.o,$(STACK_SRC))
+QUEUE_OBJ = $(patsubst $(CONTAINERS_DIR)/%.cpp,$(BUILD_DIR)/$(CONTAINERS_DIR)/%.o,$(QUEUE_SRC))
 CLI_OBJ = $(patsubst $(CLI_DIR)/%.cpp,$(BUILD_DIR)/$(CLI_DIR)/%.o,$(CLI_SRC))
 TEST_OBJ = $(patsubst $(TEST_DIR)/%.cpp,$(BUILD_DIR)/$(TEST_DIR)/%.o,$(TEST_SRC))
 
@@ -49,17 +53,25 @@ app: $(APP_BIN)
 run: app
 	./$(APP_BIN)
 
-$(APP_BIN): $(CLI_OBJ) $(ALG_LIB) $(GRAPH_LIB)
+$(APP_BIN): $(CLI_OBJ) $(ALG_LIB) $(GRAPH_LIB) $(STACK_LIB) $(QUEUE_LIB)
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -o $@ $(CLI_OBJ) $(ALG_LIB) $(GRAPH_LIB)
+	$(CXX) $(CXXFLAGS) -o $@ $(CLI_OBJ) $(ALG_LIB) $(GRAPH_LIB) $(STACK_LIB) $(QUEUE_LIB)
 
 $(GRAPH_LIB): $(GRAPH_OBJ)
 	@mkdir -p $(dir $@)
 	ar rcs $@ $^
 
-$(ALG_LIB): $(ALG_OBJ) $(CONTAINERS_OBJ)
+$(ALG_LIB): $(ALG_OBJ)
 	@mkdir -p $(dir $@)
-	ar rcs $@ $(ALG_OBJ) $(CONTAINERS_OBJ)
+	ar rcs $@ $(ALG_OBJ)
+
+$(STACK_LIB): $(STACK_OBJ)
+	@mkdir -p $(dir $@)
+	ar rcs $@ $^
+
+$(QUEUE_LIB): $(QUEUE_OBJ)
+	@mkdir -p $(dir $@)
+	ar rcs $@ $^
 
 $(BUILD_DIR)/$(CONTAINERS_DIR)/%.o: $(CONTAINERS_DIR)/%.cpp
 	@mkdir -p $(dir $@)
@@ -81,9 +93,9 @@ $(BUILD_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) -I$(GRAPH_DIR) -I$(ALG_DIR) -I$(CONTAINERS_DIR) -c $< -o $@
 
-$(TEST_BIN): $(TEST_OBJ) $(ALG_LIB) $(GRAPH_LIB)
+$(TEST_BIN): $(TEST_OBJ) $(ALG_LIB) $(GRAPH_LIB) $(STACK_LIB) $(QUEUE_LIB)
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -o $@ $(TEST_OBJ) $(ALG_LIB) $(GRAPH_LIB) $(GTEST_LIBS)
+	$(CXX) $(CXXFLAGS) -o $@ $(TEST_OBJ) $(ALG_LIB) $(GRAPH_LIB) $(STACK_LIB) $(QUEUE_LIB) $(GTEST_LIBS)
 
 test: $(TEST_BIN)
 	./$(TEST_BIN)
