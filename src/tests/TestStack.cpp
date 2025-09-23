@@ -5,14 +5,14 @@
 TEST(StackTest, DefaultConstructor) {
   Stack stack;
   EXPECT_TRUE(stack.Empty());
-  EXPECT_EQ(stack.Size(), 0);
+  EXPECT_EQ(stack.Size(), static_cast<const unsigned long>(0));
 }
 
 TEST(StackTest, Push) {
   Stack stack;
   stack.Push(1);
   EXPECT_FALSE(stack.Empty());
-  EXPECT_EQ(stack.Size(), 1);
+  EXPECT_EQ(stack.Size(), static_cast<const unsigned long>(1));
   EXPECT_EQ(stack.Top(), 1);
 }
 
@@ -21,7 +21,7 @@ TEST(StackTest, Pop) {
   stack.Push(1);
   stack.Push(2);
   stack.Pop();
-  EXPECT_EQ(stack.Size(), 1);
+  EXPECT_EQ(stack.Size(), static_cast<const unsigned long>(1));
   EXPECT_EQ(stack.Top(), 1);
   stack.Pop();
   EXPECT_TRUE(stack.Empty());
@@ -48,7 +48,7 @@ TEST(StackTest, Clear) {
   stack.Push(2);
   stack.Clear();
   EXPECT_TRUE(stack.Empty());
-  EXPECT_EQ(stack.Size(), 0);
+  EXPECT_EQ(stack.Size(), static_cast<const unsigned long>(0));
 }
 
 TEST(StackTest, PopEmpty) {

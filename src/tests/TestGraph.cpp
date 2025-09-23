@@ -111,8 +111,10 @@ TEST(GraphLoadTest, LoadValidGraphFromGeneratedFile) {
   EXPECT_EQ(EXIT_SUCCESS, graph.LoadGraphFromFile(testFilename));
 
   ASSERT_EQ(graph.GetVerticesCount(), 3);
-  ASSERT_EQ(graph.GetAdjacencyMatrix().size(), 3);
-  ASSERT_EQ(graph.GetAdjacencyMatrix()[0].size(), 3);
+  ASSERT_EQ(graph.GetAdjacencyMatrix().size(),
+            static_cast<const unsigned long>(3));
+  ASSERT_EQ(graph.GetAdjacencyMatrix()[0].size(),
+            static_cast<const unsigned long>(3));
 
   EXPECT_EQ(graph.GetAdjacencyMatrix()[0][0], 0);
   EXPECT_EQ(graph.GetAdjacencyMatrix()[0][1], 1);
