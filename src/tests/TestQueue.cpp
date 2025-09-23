@@ -5,14 +5,14 @@
 TEST(QueueTest, DefaultConstructor) {
   Queue queue;
   EXPECT_TRUE(queue.Empty());
-  EXPECT_EQ(queue.Size(), static_cast<const unsigned long>(0));
+  EXPECT_EQ(queue.Size(), 0);
 }
 
 TEST(QueueTest, Push) {
   Queue queue;
   queue.Push(1);
   EXPECT_FALSE(queue.Empty());
-  EXPECT_EQ(queue.Size(), static_cast<const unsigned long>(1));
+  EXPECT_EQ(queue.Size(), 1);
   EXPECT_EQ(queue.Front(), 1);
   EXPECT_EQ(queue.Back(), 1);
 }
@@ -22,7 +22,7 @@ TEST(QueueTest, Pop) {
   queue.Push(1);
   queue.Push(2);
   queue.Pop();
-  EXPECT_EQ(queue.Size(), static_cast<const unsigned long>(1));
+  EXPECT_EQ(queue.Size(), 1);
   EXPECT_EQ(queue.Front(), 2);
   queue.Pop();
   EXPECT_TRUE(queue.Empty());
@@ -57,7 +57,7 @@ TEST(QueueTest, Clear) {
   queue.Push(2);
   queue.Clear();
   EXPECT_TRUE(queue.Empty());
-  EXPECT_EQ(queue.Size(), static_cast<const unsigned long>(0));
+  EXPECT_EQ(queue.Size(), 0);
 }
 
 TEST(QueueTest, PopEmpty) {
