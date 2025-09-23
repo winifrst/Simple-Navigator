@@ -203,3 +203,101 @@ std::vector<std::vector<int>> GraphAlgorithms::GetLeastSpanningTree(
   }
   return mst_matrix;
 }
+
+TsmResult GraphAlgorithms::solve_traveling_salesman_problem(Graph *graph) {
+  int n = graph->GetVerticesCount();
+  const auto &dist = graph->GetAdjacencyMatrix();
+  if (n == 0) {
+    return {nullptr, 0.0};
+  }
+  const int antCount = n;
+  const int maxIterations = 1000;
+  const double alpha = 1.0;
+  const double beta = 5.0;
+  const double evaporation = 0.5;
+  const double Q = 100.0;
+  std::vector<std::vector<double>> pheromone(n, std::vector<double>(n, 1.0));
+  std::vector<std::vector<double>> heuristic(n, std::vector<double>(n, 0.0));
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      if (i != j && dist[i][j] > 0) {
+        heuristic[i][j] = 1.0 / dist[i][j];
+      }
+    }
+  }
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_real_distribution<> dis(0.0, 1.0);
+  double bestDistance = std::numeric_limits<double>::max();
+  std::vector<int> bestTour(n);
+  for (int iter = 0; iter < maxIterations; iter++) {
+    std::vector<std::vector<int>> antsTours(antCount, std::vector<int>(n));
+    std::vector<double> antsDistances(antCount, 0.0);
+    for (int k = 0; k < antCount; k++) {
+      std::vector<bool> visited(n, false);
+      int current = k % n;
+      antsTours[k][0] = current;
+      visited[current] = true;
+      for (int step = 1; step < n; step++) {
+        double sumProb = 0.0;
+        std::vector<double> probabilities(n, 0.0);
+        for (int j = 0; j < n; j++) {
+          if (!visited[j] && dist[current][j] > 0) {
+            probabilities[j] = pow(pheromone[current][j], alpha) *
+                               pow(heuristic[current][j], beta);
+            sumProb += probabilities[j];
+          }
+        }
+        double threshold = dis(gen) * sumProb;
+        double cumulative = 0.0;
+        int nextNode = -1;
+        for (int j = 0; j < n; j++) {
+          if (!visited[j] && probabilities[j] > 0) {
+            cumulative += probabilities[j];
+            if (cumulative >= threshold) {
+              nextNode = j;
+              break;
+            }
+          }
+        }
+        if (nextNode == -1) {
+          for (int j = 0; j < n; j++) {
+            if (!visited[j]) {
+              nextNode = j;
+              break;
+            }
+          }
+        }
+        antsTours[k][step] = nextNode;
+        visited[nextNode] = true;
+        antsDistances[k] += dist[current][nextNode];
+        current = nextNode;
+      }
+      antsDistances[k] += dist[current][antsTours[k][0]];
+      if (antsDistances[k] < bestDistance) {
+        bestDistance = antsDistances[k];
+        bestTour = antsTours[k];
+      }
+    }
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        pheromone[i][j] *= (1.0 - evaporation);
+        if (pheromone[i][j] < 0.0001) pheromone[i][j] = 0.0001;
+      }
+    }
+    for (int k = 0; k < antCount; k++) {
+      double contribution = Q / antsDistances[k];
+      for (int i = 0; i < n; i++) {
+        int curr = antsTours[k][i];
+        int next = antsTours[k][(i + 1) % n];
+        pheromone[curr][next] += contribution;
+        pheromone[next][curr] += contribution;
+      }
+    }
+  }
+  int *resultPath = new int[n];
+  for (int i = 0; i < n; i++) {
+    resultPath[i] = bestTour[i];
+  }
+  return {resultPath, bestDistance};
+}

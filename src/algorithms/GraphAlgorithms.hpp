@@ -1,7 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <limits>
+#include <random>
 #include <vector>
 
 #include "../containers/Queue.hpp"
@@ -14,6 +13,11 @@
 
 // ToDo Добавить doxygen документацию
 
+typedef struct TsmResult {
+  int *vertices;
+  double distance;
+} TsmResult;
+
 // ToDo Вынести namespace
 class GraphAlgorithms {
  public:
@@ -24,6 +28,7 @@ class GraphAlgorithms {
   static std::vector<int> BreadthFirstSearch(Graph &graph, int start_vertex);
   static std::vector<int> DepthFirstSearch(Graph &graph, int start_vertex);
   static std::vector<std::vector<int>> GetLeastSpanningTree(Graph &graph);
+  static TsmResult solve_traveling_salesman_problem(Graph *graph);
 
  private:
   GraphAlgorithms() = default;
