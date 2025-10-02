@@ -44,7 +44,7 @@ QUEUE_OBJ = $(patsubst $(CONTAINERS_DIR)/%.cpp,$(BUILD_DIR)/$(CONTAINERS_DIR)/%.
 CLI_OBJ = $(patsubst $(CLI_DIR)/%.cpp,$(BUILD_DIR)/$(CLI_DIR)/%.o,$(CLI_SRC))
 TEST_OBJ = $(patsubst $(TEST_DIR)/%.cpp,$(BUILD_DIR)/$(TEST_DIR)/%.o,$(TEST_SRC))
 
-.PHONY: all clean test app run style_check
+.PHONY: all s21_graph s21_graph_algorithms s21_stack s21_queue clean test style_check
 
 all: clean app run
 
@@ -52,6 +52,11 @@ app: $(APP_BIN)
 
 run: app
 	./$(APP_BIN)
+
+s21_graph: $(GRAPH_LIB)
+s21_graph_algorithms: $(ALG_LIB)
+s21_stack: $(STACK_LIB)
+s21_queue: $(QUEUE_LIB)
 
 $(APP_BIN): $(CLI_OBJ) $(ALG_LIB) $(GRAPH_LIB) $(STACK_LIB) $(QUEUE_LIB)
 	@mkdir -p $(dir $@)
@@ -63,7 +68,7 @@ $(GRAPH_LIB): $(GRAPH_OBJ)
 
 $(ALG_LIB): $(ALG_OBJ)
 	@mkdir -p $(dir $@)
-	ar rcs $@ $(ALG_OBJ)
+	ar rcs $@ $^
 
 $(STACK_LIB): $(STACK_OBJ)
 	@mkdir -p $(dir $@)
@@ -105,6 +110,6 @@ clean:
 
 style_check:
 	cp ../materials/linters/.clang-format .
-	clang-format -n */*.cpp */*.hpp
-	clang-format -i */*.cpp */*.hpp
+	find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -n
+	find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
 	rm -f .clang-format
