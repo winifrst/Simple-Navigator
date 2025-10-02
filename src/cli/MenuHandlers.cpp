@@ -7,23 +7,26 @@
 #include "../algorithms/GraphAlgorithms.hpp"
 #include "UserInterface.hpp"
 
+using namespace std;
+
 /**
  * Запуск загрузки графа
  * @param data указатель на граф
  */
-void LoadGraph(Data *data) {
+void LoadGraph(Data* data) {
   char filename[256] = {0};
   printf("\nEnter graph filename:\n> ");
   scanf("%s", filename);
-  FILE *file = NULL;
+  FILE* file = NULL;
   if ((file = fopen(filename, "r")) != NULL) {
     fclose(file);
   } else {
     printf("%s: %s\n", filename, strerror(errno));
     filename[0] = '\0';
     printf("\033[1;36m");
-    printf("The following graph will be loaded: "
-           "../data-samples/true_graph_3.txt\n");
+    printf(
+        "The following graph will be loaded: "
+        "../data-samples/true_graph_3.txt\n");
     printf("\033[0m");
   }
 
@@ -47,7 +50,7 @@ void LoadGraph(Data *data) {
  * Запуск экспорта графа
  * @param data указатель на граф
  */
-void ExportGraph(Data *data) {
+void ExportGraph(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
     if ((data->error = data->graph.ExportGraphToDot("export.dot")) ==
         EXIT_SUCCESS) {
@@ -58,8 +61,9 @@ void ExportGraph(Data *data) {
     }
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -69,9 +73,9 @@ void ExportGraph(Data *data) {
  * Запуск BFS
  * @param data указатель на граф
  */
-void BFS(Data *data) {
+void BFS(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
-    std::vector<int> result;
+    vector<int> result;
     printf("\033[1;36m");
     printf("Enter START vertex:\n");
     printf("\033[0m> ");
@@ -83,8 +87,9 @@ void BFS(Data *data) {
     PrintVector(result);
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -94,9 +99,9 @@ void BFS(Data *data) {
  * Запуск DFS
  * @param data указатель на граф
  */
-void DFS(Data *data) {
+void DFS(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
-    std::vector<int> result;
+    vector<int> result;
 
     printf("\033[1;36m");
     printf("Enter START vertex:\n");
@@ -109,8 +114,9 @@ void DFS(Data *data) {
 
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -120,9 +126,8 @@ void DFS(Data *data) {
  * Применяет алгоритм Дэйкстры
  * @param data Указатель на набор данных
  */
-void Dijkstra(Data *data) {
-  std::vector<std::vector<int>> adjacencyMatrix =
-      data->graph.GetAdjacencyMatrix();
+void Dijkstra(Data* data) {
+  vector<vector<int>> adjacencyMatrix = data->graph.GetAdjacencyMatrix();
   if (!adjacencyMatrix.empty()) {
     printf("\033[1;36m");
     printf("Enter START vertex and END vertex:\n");
@@ -138,8 +143,9 @@ void Dijkstra(Data *data) {
     printf("\033[0m");
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
   }
   printf("\033[0m");
 
@@ -150,11 +156,10 @@ void Dijkstra(Data *data) {
  * Применяет алгоритм Флойда-Уоршалла
  * @param data Указатель на набор данных
  */
-void Floyd(Data *data) {
-  std::vector<std::vector<int>> adjacencyMatrix =
-      data->graph.GetAdjacencyMatrix();
+void Floyd(Data* data) {
+  vector<vector<int>> adjacencyMatrix = data->graph.GetAdjacencyMatrix();
   if (!adjacencyMatrix.empty()) {
-    std::vector<std::vector<int>> result =
+    vector<vector<int>> result =
         GraphAlgorithms::GetShortestPathsBetweenAllVertices(data->graph);
 
     PrintHeader("Shortest paths between all pairs of vertices in the graph");
@@ -162,8 +167,9 @@ void Floyd(Data *data) {
     PrintResultFooter();
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -173,12 +179,11 @@ void Floyd(Data *data) {
  * Применяет алгоритм Прима
  * @param data Указатель на набор данных
  */
-void Prim(Data *data) {
-  std::vector<std::vector<int>> adjacencyMatrix =
-      data->graph.GetAdjacencyMatrix();
+void Prim(Data* data) {
+  vector<vector<int>> adjacencyMatrix = data->graph.GetAdjacencyMatrix();
 
   if (!adjacencyMatrix.empty()) {
-    std::vector<std::vector<int>> result =
+    vector<vector<int>> result =
         GraphAlgorithms::GetLeastSpanningTree(data->graph);
 
     PrintHeader("The minimum spanning tree in the graph");
@@ -188,8 +193,9 @@ void Prim(Data *data) {
 
   else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -206,7 +212,7 @@ long long GetTime() {
  * Запуск решения задачи коммивояжёра
  * @param data указатель на граф
  */
-void TSP(Data *data) {
+void TSP(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
     printf("Enter number of iterations:\n> ");
     int iter = GetUserInputInt(1, INT_MAX);
@@ -214,8 +220,7 @@ void TSP(Data *data) {
     long long int t = GetTime();
     TsmResult result_ant;
     for (int i = 0; i < ((iter > 100) ? 100 : iter); i++) {
-      result_ant =
-          GraphAlgorithms::solve_traveling_salesman_problem(&data->graph);
+      result_ant = GraphAlgorithms::SolveTravelingSalesmanProblem(&data->graph);
       free(result_ant.vertices);
     }
     double td =
@@ -224,14 +229,19 @@ void TSP(Data *data) {
     printf("      path length: %.0f\n", result_ant.distance);
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
 }
 
-void PaintTyan(Data *data) {
+/**
+ * Запуск картинки
+ * @param data указатель на граф
+ */
+void PaintTyan(Data* data) {
   printf("\033[48;5;93m\033[1;37m  ⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⡠⢴⣴⣾⣿⡿⠓⡠⠀⠀⠀⠀⠠⢄⠁⢀\033[0m\n");
   printf("\033[48;5;93m\033[1;37m⠀⠀⠀⠀⠀⠳⣽⡽⠀⠀⡠⢊⣴⣿⣿⣿⣡⠖⠁⣀⡤⢖⠟⠁⡠⠀⡙⢿⣷⣄\033[0m\n");
   printf("\033[48;5;93m\033[1;37m⠀⠀⠐⡀⠀⠀⠀⠀⢠⣾⣿⣿⢽⣿⣿⣿⣥⠖⣻⣯⡾⠃⠀⡔⡀⠀⣷⢸⢿⣿\033[0m\n");

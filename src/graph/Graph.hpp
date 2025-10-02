@@ -6,9 +6,6 @@
 
 #include "fstream"
 
-// ToDo Добавить doxygen документацию
-
-// ToDo Вынесте namespace
 class Graph {
  private:
   std::vector<std::vector<int>> adjacencyMatrix;
@@ -20,9 +17,9 @@ class Graph {
   int LoadGraphFromFile(std::string filename);
   int ExportGraphToDot(std::string filename);
 
-  int GetVerticesCount() const { return verticesCount; }
-  // ToDo Удалить неискользуемые комменты
+  int GetVerticesCount() const;
   const std::vector<std::vector<int>>& GetAdjacencyMatrix() const;
+
   void SetAdjacencyMatrix(const std::vector<std::vector<int>>& matrix);
 
  private:
