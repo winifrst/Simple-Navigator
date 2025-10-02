@@ -1,5 +1,9 @@
 #pragma once
 
+#include <sys/time.h>
+
+#include <algorithm>
+#include <climits>
 #include <random>
 #include <vector>
 
@@ -13,8 +17,13 @@
 
 // ToDo Добавить doxygen документацию
 
+// typedef struct TsmResult {
+//   int *vertices;
+//   double distance;
+// } TsmResult;
+
 typedef struct TsmResult {
-  int *vertices;
+  std::vector<int> vertices;
   double distance;
 } TsmResult;
 
@@ -29,6 +38,7 @@ class GraphAlgorithms {
   static std::vector<int> DepthFirstSearch(Graph &graph, int start_vertex);
   static std::vector<std::vector<int>> GetLeastSpanningTree(Graph &graph);
   static TsmResult solve_traveling_salesman_problem(Graph *graph);
+  static TsmResult SolveSalesmanWithBruteForce(Graph *graph);
 
  private:
   GraphAlgorithms() = default;
@@ -40,4 +50,9 @@ class GraphAlgorithms {
   static void GetDepthNeighbors(
       const std::vector<std::vector<int>> &adjacency_matrix, int current_vertex,
       Stack &grays, std::vector<bool> &visited);
+  static long long GetTime();
+  static void BruteForce(Graph *graph, TsmResult *result,
+                         std::vector<int> &current_path,
+                         std::vector<int> &visited, int current_dist, int depth,
+                         long long int t);
 };

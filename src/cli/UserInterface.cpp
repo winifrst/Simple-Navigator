@@ -45,10 +45,7 @@ int PrintMainMenu() {
       "7. Search for the minimum spanning tree in the graph "
       "(Prim's "
       "algorithm)\n");
-  printf(
-      "8. (TO DO) Solve the Salesman problem (Ant colony, Brute-Force, "
-      "Close "
-      "points)\n");
+  printf("8. Solve the Salesman problem (Ant colony, Brute-Force)\n");
   printf("9. Exit\n");
 
   printf("\033[0m> ");

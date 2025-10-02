@@ -1,4 +1,6 @@
 #pragma once
+#include <cstdio>
+#include <cstring>
 #include <vector>
 
 int GetUserInputInt(int start, int end);

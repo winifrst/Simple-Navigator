@@ -204,12 +204,104 @@ std::vector<std::vector<int>> GraphAlgorithms::GetLeastSpanningTree(
   return mst_matrix;
 }
 
+long long GraphAlgorithms::GetTime() {
+  struct timeval t;
+  gettimeofday(&t, NULL);
+
+  return (long long)t.tv_sec * 1000 + t.tv_usec / 1000;
+}
+
+void GraphAlgorithms::BruteForce(Graph *graph, TsmResult *result,
+                                 std::vector<int> &current_path,
+                                 std::vector<int> &visited, int current_dist,
+                                 int depth, long long int t) {
+  if (GetTime() - t > 10 * 1000) {
+    if (depth == 1) printf("Can't fully solve in 10 sec, return best case.\n");
+    return;
+  }
+
+  int n = graph->GetVerticesCount();
+
+  if (depth == n) {
+    // добавляем ребро возврата в начало
+    int back_edge =
+        graph->GetAdjacencyMatrix()[current_path[depth - 1]][current_path[0]];
+    int total_dist = (back_edge > 0) ? current_dist + back_edge : INT_MAX;
+
+    if (total_dist < result->distance) {
+      result->distance = total_dist;
+      current_path[depth] = current_path[0];
+
+      // копируем найденный маршрут
+      result->vertices.assign(current_path.begin(),
+                              current_path.begin() + n + 1);
+    }
+  } else {
+    for (int i = 0; i < n; i++) {
+      if (!visited[i]) {
+        int weight = graph->GetAdjacencyMatrix()[current_path[depth - 1]][i];
+
+        if (weight > 0) {  // FIX: только положительные рёбра
+          visited[i] = 1;
+          current_path[depth] = i;
+          current_dist += weight;
+
+          BruteForce(graph, result, current_path, visited, current_dist,
+                     depth + 1, t);
+
+          current_dist -= weight;
+          visited[i] = 0;
+        }
+      }
+    }
+  }
+}
+
+TsmResult GraphAlgorithms::SolveSalesmanWithBruteForce(Graph *graph) {
+  const int n = graph->GetVerticesCount();
+
+  TsmResult result;
+  result.distance = std::numeric_limits<double>::infinity();
+  // result.vertices = malloc(sizeof(int) * (n + 1));
+
+  if (n == 0) {
+    result.distance = 0;
+    return result;
+  }
+
+  // int visited[n];
+  // for (int i = 0; i < n; i++) {
+  //   visited[i] = 0;
+  // }
+  // visited[0] = 1;
+  std::vector<int> visited(n, 0);
+  visited[0] = 1;
+
+  // int current_path[n + 1];
+  // for (int i = 0; i < n + 1; i++) {
+  //   current_path[i] = -1;
+  // }
+  // current_path[0] = 0;
+  std::vector<int> current_path(n + 1, -1);
+  current_path[0] = 0;
+
+  long long t = GetTime();
+  BruteForce(graph, &result, current_path, visited, 0, 1, t);
+
+  if (result.distance == std::numeric_limits<double>::infinity()) {
+    printf("No solution\n");
+  }
+
+  return result;
+}
+
 TsmResult GraphAlgorithms::solve_traveling_salesman_problem(Graph *graph) {
   int n = graph->GetVerticesCount();
   const auto &dist = graph->GetAdjacencyMatrix();
   if (n == 0) {
-    return {nullptr, 0.0};
+    return {{}, 0.0};
   }
+
   const int antCount = n;
   const int maxIterations = 1000;
   const double alpha = 1.0;
@@ -295,9 +387,9 @@ TsmResult GraphAlgorithms::solve_traveling_salesman_problem(Graph *graph) {
       }
     }
   }
-  int *resultPath = new int[n];
-  for (int i = 0; i < n; i++) {
-    resultPath[i] = bestTour[i];
-  }
-  return {resultPath, bestDistance};
+  // int *resultPath = new int[n];
+  // for (int i = 0; i < n; i++) {
+  //   resultPath[i] = bestTour[i];
+  // }
+  return {bestTour, bestDistance};
 }

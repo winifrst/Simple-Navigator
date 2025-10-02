@@ -3,6 +3,7 @@
 #include <sys/time.h>
 
 #include <climits>
+#include <cstring>
 
 #include "../algorithms/GraphAlgorithms.hpp"
 #include "UserInterface.hpp"
@@ -22,8 +23,9 @@ void LoadGraph(Data *data) {
     printf("%s: %s\n", filename, strerror(errno));
     filename[0] = '\0';
     printf("\033[1;36m");
-    printf("The following graph will be loaded: "
-           "../data-samples/true_graph_3.txt\n");
+    printf(
+        "The following graph will be loaded: "
+        "../data-samples/true_graph_3.txt\n");
     printf("\033[0m");
   }
 
@@ -52,14 +54,14 @@ void ExportGraph(Data *data) {
     if ((data->error = data->graph.ExportGraphToDot("export.dot")) ==
         EXIT_SUCCESS) {
       PrintHeader("Graph exported successfully in export.dot");
-
     } else {
       PrintHeader("An error occurred while ExportGraph a graph from a file.");
     }
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -83,8 +85,9 @@ void BFS(Data *data) {
     PrintVector(result);
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -106,11 +109,11 @@ void DFS(Data *data) {
     PrintHeader("DFS traversal result");
     putchar('\n');
     PrintVector(result);
-
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -138,8 +141,9 @@ void Dijkstra(Data *data) {
     printf("\033[0m");
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
   }
   printf("\033[0m");
 
@@ -162,8 +166,9 @@ void Floyd(Data *data) {
     PrintResultFooter();
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -188,8 +193,9 @@ void Prim(Data *data) {
 
   else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
@@ -216,16 +222,34 @@ void TSP(Data *data) {
     for (int i = 0; i < ((iter > 100) ? 100 : iter); i++) {
       result_ant =
           GraphAlgorithms::solve_traveling_salesman_problem(&data->graph);
-      free(result_ant.vertices);
+      // free(result_ant.vertices);
     }
     double td =
         (double)(GetTime() - t) / 1000 * ((iter > 100) ? iter / 100 : 1);
-    printf("         Ant time: %.3lf s\n", td);
+    PrintHeader("Traveling salseman problem solve");
+    putchar('\n');
+    PrintVector(result_ant.vertices);
+    PrintResultFooter();
+    result_ant.vertices.clear();
+
     printf("      path length: %.0f\n", result_ant.distance);
+    printf("         Ant time: %.3lf s\n", td);
+
+    TsmResult result_brute_force;
+    for (int i = 0; i < ((iter > 100) ? 100 : iter); i++) {
+      result_brute_force =
+          GraphAlgorithms::SolveSalesmanWithBruteForce(&data->graph);
+    }
+    td = (double)(GetTime() - t) / 1000 * ((iter > 100) ? iter / 100 : 1);
+    // printf("      path length: %.0f\n", result_ant.distance);
+    printf(" Brute force time: %.3lf s\n", td);
+    // PrintVector(result_brute_force.vertices);
+    result_brute_force.vertices.clear();
   } else {
     printf("\033[1;31m");
-    printf("\nThe graph is not initialized. Please load the graph from file "
-           "first.\n");
+    printf(
+        "\nThe graph is not initialized. Please load the graph from file "
+        "first.\n");
     printf("\033[0m");
   }
   data->state = 0;
