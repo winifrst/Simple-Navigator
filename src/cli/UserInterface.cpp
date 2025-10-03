@@ -1,5 +1,7 @@
 #include "UserInterface.hpp"
 
+using namespace std;
+
 /**
  * Считывание числа из консоли ввода пользователя в диапазоне от start до
  * end
@@ -57,7 +59,7 @@ int PrintMainMenu() {
  * Выводит размер графа и матрицу смежности на экран
  * @param adjacencyMatrix двумерный вектор
  */
-void PrintMatrix(const std::vector<std::vector<int>>& adjacencyMatrix) {
+void PrintMatrix(const vector<vector<int>>& adjacencyMatrix) {
   if (adjacencyMatrix.empty()) {
     return;
   }
@@ -77,7 +79,7 @@ void PrintMatrix(const std::vector<std::vector<int>>& adjacencyMatrix) {
  * Печать вектора
  * @param array указатель на массив
  */
-void PrintVector(const std::vector<int>& result) {
+void PrintVector(const vector<int>& result) {
   int shift = 1;
   for (size_t i = 0; i < result.size(); ++i) {
     printf("%d ", result[i] + shift);
@@ -85,6 +87,10 @@ void PrintVector(const std::vector<int>& result) {
   printf("\n");
 }
 
+/**
+ * Печать заголовка в рамке с цветом
+ * @param title строка с текстом заголовка
+ */
 void PrintHeader(const char* title) {
   int dashes = strlen(title) + 2;
 
@@ -99,6 +105,9 @@ void PrintHeader(const char* title) {
   printf("+\033[0m\n");
 }
 
+/**
+ * Печать нижнего колонтитула для результатов
+ */
 void PrintResultFooter() {
   printf("\033[1;32m+------------------------------------------+\033[0m\n\n");
 }

@@ -8,15 +8,17 @@
 #include "../algorithms/GraphAlgorithms.hpp"
 #include "UserInterface.hpp"
 
+using namespace std;
+
 /**
  * Запуск загрузки графа
  * @param data указатель на граф
  */
-void LoadGraph(Data *data) {
+void LoadGraph(Data* data) {
   char filename[256] = {0};
   printf("\nEnter graph filename:\n> ");
   scanf("%s", filename);
-  FILE *file = NULL;
+  FILE* file = NULL;
   if ((file = fopen(filename, "r")) != NULL) {
     fclose(file);
   } else {
@@ -49,7 +51,7 @@ void LoadGraph(Data *data) {
  * Запуск экспорта графа
  * @param data указатель на граф
  */
-void ExportGraph(Data *data) {
+void ExportGraph(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
     if ((data->error = data->graph.ExportGraphToDot("export.dot")) ==
         EXIT_SUCCESS) {
@@ -71,9 +73,9 @@ void ExportGraph(Data *data) {
  * Запуск BFS
  * @param data указатель на граф
  */
-void BFS(Data *data) {
+void BFS(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
-    std::vector<int> result;
+    vector<int> result;
     printf("\033[1;36m");
     printf("Enter START vertex:\n");
     printf("\033[0m> ");
@@ -97,9 +99,9 @@ void BFS(Data *data) {
  * Запуск DFS
  * @param data указатель на граф
  */
-void DFS(Data *data) {
+void DFS(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
-    std::vector<int> result;
+    vector<int> result;
 
     printf("\033[1;36m");
     printf("Enter START vertex:\n");
@@ -123,9 +125,8 @@ void DFS(Data *data) {
  * Применяет алгоритм Дэйкстры
  * @param data Указатель на набор данных
  */
-void Dijkstra(Data *data) {
-  std::vector<std::vector<int>> adjacencyMatrix =
-      data->graph.GetAdjacencyMatrix();
+void Dijkstra(Data* data) {
+  vector<vector<int>> adjacencyMatrix = data->graph.GetAdjacencyMatrix();
   if (!adjacencyMatrix.empty()) {
     printf("\033[1;36m");
     printf("Enter START vertex and END vertex:\n");
@@ -154,11 +155,10 @@ void Dijkstra(Data *data) {
  * Применяет алгоритм Флойда-Уоршалла
  * @param data Указатель на набор данных
  */
-void Floyd(Data *data) {
-  std::vector<std::vector<int>> adjacencyMatrix =
-      data->graph.GetAdjacencyMatrix();
+void Floyd(Data* data) {
+  vector<vector<int>> adjacencyMatrix = data->graph.GetAdjacencyMatrix();
   if (!adjacencyMatrix.empty()) {
-    std::vector<std::vector<int>> result =
+    vector<vector<int>> result =
         GraphAlgorithms::GetShortestPathsBetweenAllVertices(data->graph);
 
     PrintHeader("Shortest paths between all pairs of vertices in the graph");
@@ -178,12 +178,11 @@ void Floyd(Data *data) {
  * Применяет алгоритм Прима
  * @param data Указатель на набор данных
  */
-void Prim(Data *data) {
-  std::vector<std::vector<int>> adjacencyMatrix =
-      data->graph.GetAdjacencyMatrix();
+void Prim(Data* data) {
+  vector<vector<int>> adjacencyMatrix = data->graph.GetAdjacencyMatrix();
 
   if (!adjacencyMatrix.empty()) {
-    std::vector<std::vector<int>> result =
+    vector<vector<int>> result =
         GraphAlgorithms::GetLeastSpanningTree(data->graph);
 
     PrintHeader("The minimum spanning tree in the graph");
@@ -212,7 +211,7 @@ long long GetTime() {
  * Запуск решения задачи коммивояжёра
  * @param data указатель на граф
  */
-void TSP(Data *data) {
+void TSP(Data* data) {
   if (!data->graph.GetAdjacencyMatrix().empty()) {
     printf("Enter number of iterations:\n> ");
     int iter = GetUserInputInt(1, INT_MAX);
@@ -225,8 +224,7 @@ void TSP(Data *data) {
 
     TsmResult result_ant;
     for (int i = 0; i < ((iter > 100) ? 100 : iter); i++) {
-      result_ant =
-          GraphAlgorithms::solve_traveling_salesman_problem(&data->graph);
+      result_ant = GraphAlgorithms::SolveTravelingSalesmanProblem(&data->graph);
     }
     double td =
         (double)(GetTime() - t) / 1000 * ((iter > 100) ? iter / 100 : 1);
@@ -239,7 +237,7 @@ void TSP(Data *data) {
       PrintVector(result_ant.vertices);
     } else {
       printf("\033[1;31m");
-      printf("\n     Error: cannot visit all vertices\n");
+      printf("\n      Error: cannot visit all vertices\n");
       printf("\033[0m");
     }
 
@@ -275,7 +273,11 @@ void TSP(Data *data) {
   data->state = 0;
 }
 
-void PaintTyan(Data *data) {
+/**
+ * Запуск картинки
+ * @param data указатель на граф
+ */
+void PaintTyan(Data* data) {
   printf("\033[48;5;93m\033[1;37m  ⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⡠⢴⣴⣾⣿⡿⠓⡠⠀⠀⠀⠀⠠⢄⠁⢀\033[0m\n");
   printf("\033[48;5;93m\033[1;37m⠀⠀⠀⠀⠀⠳⣽⡽⠀⠀⡠⢊⣴⣿⣿⣿⣡⠖⠁⣀⡤⢖⠟⠁⡠⠀⡙⢿⣷⣄\033[0m\n");
   printf("\033[48;5;93m\033[1;37m⠀⠀⠐⡀⠀⠀⠀⠀⢠⣾⣿⣿⢽⣿⣿⣿⣥⠖⣻⣯⡾⠃⠀⡔⡀⠀⣷⢸⢿⣿\033[0m\n");

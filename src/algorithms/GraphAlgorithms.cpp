@@ -1,22 +1,32 @@
 #include "GraphAlgorithms.hpp"
 
-const long long INF = std::numeric_limits<long long>::max();
-const int INF_INT = std::numeric_limits<int>::max();
+using namespace std;
 
-long long GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph,
+const long long INF = numeric_limits<long long>::max();
+const int INF_INT = numeric_limits<int>::max();
+
+/**
+ * Реализация алгоритма Дейкстры для поиска кратчайшего пути между двумя
+ * вершинами
+ * @param graph ссылка на объект графа
+ * @param vertex1 начальная вершина (нумерация с 1)
+ * @param vertex2 конечная вершина (нумерация с 1)
+ * @return длина кратчайшего пути между vertex1 и vertex2
+ */
+long long GraphAlgorithms::GetShortestPathBetweenVertices(Graph& graph,
                                                           int vertex1,
                                                           int vertex2) {
   int vertices_count = graph.GetVerticesCount();
 
   if (vertex1 < 1 || vertex2 < 1 || vertex1 > vertices_count ||
       vertex2 > vertices_count) {
-    throw std::out_of_range("Vertex index is out of range.");
+    throw out_of_range("Vertex index is out of range.");
   }
-  std::vector<std::vector<int>> adj_matrix = graph.GetAdjacencyMatrix();
+  vector<vector<int>> adj_matrix = graph.GetAdjacencyMatrix();
 
-  std::vector<long long> dist(vertices_count, INF);
+  vector<long long> dist(vertices_count, INF);
   dist[vertex1 - 1] = 0;
-  std::vector<bool> visited(vertices_count, false);
+  vector<bool> visited(vertices_count, false);
 
   while (true) {
     int min_vertex = -1;
@@ -46,16 +56,22 @@ long long GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph,
     }
   }
   if (dist[vertex2 - 1] == INF) {
-    throw std::runtime_error("No path exists between the vertices.");
+    throw runtime_error("No path exists between the vertices.");
   }
 
   return dist[vertex2 - 1];
 }
 
-std::vector<std::vector<int>>
-GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
+/**
+ * Реализация алгоритма Флойда-Уоршелла для поиска кратчайших путей между всеми
+ * парами вершин
+ * @param graph ссылка на объект графа
+ * @return матрица кратчайших расстояний между всеми парами вершин
+ */
+vector<vector<int>> GraphAlgorithms::GetShortestPathsBetweenAllVertices(
+    Graph& graph) {
   int vertices_count = graph.GetVerticesCount();
-  std::vector<std::vector<int>> dist = graph.GetAdjacencyMatrix();
+  vector<vector<int>> dist = graph.GetAdjacencyMatrix();
 
   for (int k = 0; k < vertices_count; ++k) {
     for (int i = 0; i < vertices_count; ++i) {
@@ -63,7 +79,7 @@ GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
         if (i == j) {
           dist[i][j] = 0;
         } else if (dist[i][k] < INF_INT / 2 && dist[k][j] < INF_INT / 2) {
-          dist[i][j] = std::min(dist[i][j], dist[i][k] + dist[k][j]);
+          dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
         }
       }
     }
@@ -71,16 +87,22 @@ GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
   return dist;
 }
 
-std::vector<int> GraphAlgorithms::BreadthFirstSearch(Graph &graph,
-                                                     int start_vertex) {
-  std::vector<int> result;
+/**
+ * Поиск в ширину (BFS) для обхода графа
+ * @param graph ссылка на объект графа
+ * @param start_vertex начальная вершина для обхода (нумерация с 0)
+ * @return вектор вершин в порядке их посещения
+ */
+vector<int> GraphAlgorithms::BreadthFirstSearch(Graph& graph,
+                                                int start_vertex) {
+  vector<int> result;
 
   if (start_vertex < 0 || start_vertex >= graph.GetVerticesCount() ||
       graph.GetAdjacencyMatrix().empty() || graph.GetVerticesCount() <= 0) {
     return result;
   }
 
-  std::vector<bool> visited(graph.GetVerticesCount(), false);
+  vector<bool> visited(graph.GetVerticesCount(), false);
   Queue grays;
 
   grays.Push(start_vertex);
@@ -97,9 +119,16 @@ std::vector<int> GraphAlgorithms::BreadthFirstSearch(Graph &graph,
   return result;
 }
 
+/**
+ * Вспомогательная функция для BFS - получение соседей вершины
+ * @param adjacencyMatrix матрица смежности графа
+ * @param current_vertex текущая вершина
+ * @param grays очередь для вершин, ожидающих обработки
+ * @param visited массив посещенных вершин
+ */
 void GraphAlgorithms::GetBreadthNeighbors(
-    const std::vector<std::vector<int>> &adjacencyMatrix, int current_vertex,
-    Queue &grays, std::vector<bool> &visited) {
+    const vector<vector<int>>& adjacencyMatrix, int current_vertex,
+    Queue& grays, vector<bool>& visited) {
   int size = adjacencyMatrix.size();
   if (current_vertex < 0 || current_vertex >= size) {
     return;
@@ -113,15 +142,20 @@ void GraphAlgorithms::GetBreadthNeighbors(
   }
 }
 
-std::vector<int> GraphAlgorithms::DepthFirstSearch(Graph &graph,
-                                                   int start_vertex) {
-  std::vector<int> result;
+/**
+ * Поиск в глубину (DFS) для обхода графа
+ * @param graph ссылка на объект графа
+ * @param start_vertex начальная вершина для обхода (нумерация с 0)
+ * @return вектор вершин в порядке их посещения
+ */
+vector<int> GraphAlgorithms::DepthFirstSearch(Graph& graph, int start_vertex) {
+  vector<int> result;
   if (start_vertex < 0 || start_vertex >= graph.GetVerticesCount() ||
       graph.GetAdjacencyMatrix().empty() || graph.GetVerticesCount() <= 0) {
     return result;
   }
 
-  std::vector<bool> visited(graph.GetVerticesCount(), false);
+  vector<bool> visited(graph.GetVerticesCount(), false);
   Stack grays;
 
   grays.Push(start_vertex);
@@ -141,9 +175,17 @@ std::vector<int> GraphAlgorithms::DepthFirstSearch(Graph &graph,
   return result;
 }
 
+/**
+ * Вспомогательная функция для DFS - получение соседей вершины в обратном
+ * порядке
+ * @param adjacencyMatrix матрица смежности графа
+ * @param current_vertex текущая вершина
+ * @param grays стек для вершин, ожидающих обработки
+ * @param visited массив посещенных вершин
+ */
 void GraphAlgorithms::GetDepthNeighbors(
-    const std::vector<std::vector<int>> &adjacencyMatrix, int current_vertex,
-    Stack &grays, std::vector<bool> &visited) {
+    const vector<vector<int>>& adjacencyMatrix, int current_vertex,
+    Stack& grays, vector<bool>& visited) {
   int size = adjacencyMatrix.size();
   if (current_vertex < 0 || current_vertex >= size) {
     return;
@@ -156,17 +198,21 @@ void GraphAlgorithms::GetDepthNeighbors(
   }
 }
 
-std::vector<std::vector<int>> GraphAlgorithms::GetLeastSpanningTree(
-    Graph &graph) {
+/**
+ * Построение минимального остовного дерева алгоритмом Прима
+ * @param graph ссылка на объект графа
+ * @return матрица смежности минимального остовного дерева
+ */
+vector<vector<int>> GraphAlgorithms::GetLeastSpanningTree(Graph& graph) {
   int vertices_count = graph.GetVerticesCount();
-  std::vector<std::vector<int>> adj_matrix = graph.GetAdjacencyMatrix();
+  vector<vector<int>> adj_matrix = graph.GetAdjacencyMatrix();
 
-  std::vector<bool> in_mst(vertices_count, false);
+  vector<bool> in_mst(vertices_count, false);
 
-  std::vector<int> min_edge_weight(vertices_count, INF_INT);
+  vector<int> min_edge_weight(vertices_count, INF_INT);
   min_edge_weight[0] = 0;
 
-  std::vector<int> parent(vertices_count, -1);
+  vector<int> parent(vertices_count, -1);
 
   for (int i = 0; i < vertices_count - 1; ++i) {
     int min_dist = INF_INT;
@@ -191,8 +237,8 @@ std::vector<std::vector<int>> GraphAlgorithms::GetLeastSpanningTree(
     }
   }
 
-  std::vector<std::vector<int>> mst_matrix(vertices_count,
-                                           std::vector<int>(vertices_count, 0));
+  vector<vector<int>> mst_matrix(vertices_count,
+                                 vector<int>(vertices_count, 0));
 
   for (int i = 1; i < vertices_count; ++i) {
     if (parent[i] != -1) {
@@ -211,9 +257,9 @@ long long GraphAlgorithms::GetTime() {
   return (long long)t.tv_sec * 1000 + t.tv_usec / 1000;
 }
 
-void GraphAlgorithms::BruteForce(Graph *graph, TsmResult *result,
-                                 std::vector<int> &current_path,
-                                 std::vector<int> &visited, int current_dist,
+void GraphAlgorithms::BruteForce(Graph* graph, TsmResult* result,
+                                 std::vector<int>& current_path,
+                                 std::vector<int>& visited, int current_dist,
                                  int depth, long long int t) {
   if (GetTime() - t > 10 * 1000) {
     if (depth == 1) printf("Can't fully solve in 10 sec, return best case.\n");
@@ -257,7 +303,7 @@ void GraphAlgorithms::BruteForce(Graph *graph, TsmResult *result,
   }
 }
 
-TsmResult GraphAlgorithms::SolveSalesmanWithBruteForce(Graph *graph) {
+TsmResult GraphAlgorithms::SolveSalesmanWithBruteForce(Graph* graph) {
   const int n = graph->GetVerticesCount();
 
   TsmResult result;
@@ -280,7 +326,7 @@ TsmResult GraphAlgorithms::SolveSalesmanWithBruteForce(Graph *graph) {
   return result;
 }
 
-bool GraphAlgorithms::IsStronglyConnected(Graph &graph) {
+bool GraphAlgorithms::IsStronglyConnected(Graph& graph) {
   int n = graph.GetVerticesCount();
   if (n == 0) {
     return true;
@@ -293,7 +339,7 @@ bool GraphAlgorithms::IsStronglyConnected(Graph &graph) {
   }
 
   // 2. Строим транспонированный граф
-  const auto &dist = graph.GetAdjacencyMatrix();
+  const auto& dist = graph.GetAdjacencyMatrix();
   std::vector<std::vector<int>> dist_transposed(n, std::vector<int>(n, 0));
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
@@ -315,13 +361,18 @@ bool GraphAlgorithms::IsStronglyConnected(Graph &graph) {
   return true;
 }
 
-TsmResult GraphAlgorithms::solve_traveling_salesman_problem(Graph *graph) {
+/**
+ * Решение задачи коммивояжера с помощью алгоритма муравьиной колонии
+ * @param graph указатель на объект графа
+ * @return структура TsmResult с оптимальным маршрутом и длиной пути
+ */
+TsmResult GraphAlgorithms::SolveTravelingSalesmanProblem(Graph* graph) {
   if (!IsStronglyConnected(*graph)) {
     return {{}, std::numeric_limits<double>::infinity()};
   }
 
   int n = graph->GetVerticesCount();
-  const auto &dist = graph->GetAdjacencyMatrix();
+  const auto& dist = graph->GetAdjacencyMatrix();
   if (n == 0) {
     return {{}, 0.0};
   }
@@ -332,8 +383,8 @@ TsmResult GraphAlgorithms::solve_traveling_salesman_problem(Graph *graph) {
   const double beta = 5.0;
   const double evaporation = 0.5;
   const double Q = 100.0;
-  std::vector<std::vector<double>> pheromone(n, std::vector<double>(n, 1.0));
-  std::vector<std::vector<double>> heuristic(n, std::vector<double>(n, 0.0));
+  vector<vector<double>> pheromone(n, vector<double>(n, 1.0));
+  vector<vector<double>> heuristic(n, vector<double>(n, 0.0));
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       if (i != j && dist[i][j] > 0) {
@@ -341,22 +392,22 @@ TsmResult GraphAlgorithms::solve_traveling_salesman_problem(Graph *graph) {
       }
     }
   }
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_real_distribution<> dis(0.0, 1.0);
-  double bestDistance = std::numeric_limits<double>::max();
-  std::vector<int> bestTour(n);
+  random_device rd;
+  mt19937 gen(rd());
+  uniform_real_distribution<> dis(0.0, 1.0);
+  double bestDistance = numeric_limits<double>::max();
+  vector<int> bestTour(n);
   for (int iter = 0; iter < maxIterations; iter++) {
-    std::vector<std::vector<int>> antsTours(antCount, std::vector<int>(n));
-    std::vector<double> antsDistances(antCount, 0.0);
+    vector<vector<int>> antsTours(antCount, vector<int>(n));
+    vector<double> antsDistances(antCount, 0.0);
     for (int k = 0; k < antCount; k++) {
-      std::vector<bool> visited(n, false);
+      vector<bool> visited(n, false);
       int current = k % n;
       antsTours[k][0] = current;
       visited[current] = true;
       for (int step = 1; step < n; step++) {
         double sumProb = 0.0;
-        std::vector<double> probabilities(n, 0.0);
+        vector<double> probabilities(n, 0.0);
         for (int j = 0; j < n; j++) {
           if (!visited[j] && dist[current][j] > 0) {
             probabilities[j] = pow(pheromone[current][j], alpha) *
