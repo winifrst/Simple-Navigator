@@ -24,6 +24,7 @@ int Graph::LoadGraphFromFile(std::string c_filename) {
 int Graph::LoadMatrixFromFile(std::ifstream* file) {
   int error = EXIT_SUCCESS;
 
+  this->adjacencyMatrix.clear();
   this->adjacencyMatrix.resize(this->verticesCount,
                                std::vector<int>(this->verticesCount, 0));
 

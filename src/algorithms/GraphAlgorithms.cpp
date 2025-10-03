@@ -262,40 +262,64 @@ TsmResult GraphAlgorithms::SolveSalesmanWithBruteForce(Graph *graph) {
 
   TsmResult result;
   result.distance = std::numeric_limits<double>::infinity();
-  // result.vertices = malloc(sizeof(int) * (n + 1));
 
   if (n == 0) {
     result.distance = 0;
     return result;
   }
 
-  // int visited[n];
-  // for (int i = 0; i < n; i++) {
-  //   visited[i] = 0;
-  // }
-  // visited[0] = 1;
   std::vector<int> visited(n, 0);
   visited[0] = 1;
 
-  // int current_path[n + 1];
-  // for (int i = 0; i < n + 1; i++) {
-  //   current_path[i] = -1;
-  // }
-  // current_path[0] = 0;
   std::vector<int> current_path(n + 1, -1);
   current_path[0] = 0;
 
   long long t = GetTime();
   BruteForce(graph, &result, current_path, visited, 0, 1, t);
 
-  if (result.distance == std::numeric_limits<double>::infinity()) {
-    printf("No solution\n");
-  }
-
   return result;
 }
 
+bool GraphAlgorithms::IsStronglyConnected(Graph &graph) {
+  int n = graph.GetVerticesCount();
+  if (n == 0) {
+    return true;
+  }
+
+  // 1. DFS в исходном графе
+  auto visited_order = DepthFirstSearch(graph, 0);
+  if ((int)visited_order.size() != n) {
+    return false;
+  }
+
+  // 2. Строим транспонированный граф
+  const auto &dist = graph.GetAdjacencyMatrix();
+  std::vector<std::vector<int>> dist_transposed(n, std::vector<int>(n, 0));
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      if (dist[i][j] != 0) {
+        dist_transposed[j][i] = dist[i][j];
+      }
+    }
+  }
+
+  Graph transposed_graph;
+  transposed_graph.SetAdjacencyMatrix(dist_transposed);
+
+  // 3. DFS в транспонированном графе
+  auto visited_order_transposed = DepthFirstSearch(transposed_graph, 0);
+  if ((int)visited_order_transposed.size() != n) {
+    return false;
+  }
+
+  return true;
+}
+
 TsmResult GraphAlgorithms::solve_traveling_salesman_problem(Graph *graph) {
+  if (!IsStronglyConnected(*graph)) {
+    return {{}, std::numeric_limits<double>::infinity()};
+  }
+
   int n = graph->GetVerticesCount();
   const auto &dist = graph->GetAdjacencyMatrix();
   if (n == 0) {
@@ -387,9 +411,6 @@ TsmResult GraphAlgorithms::solve_traveling_salesman_problem(Graph *graph) {
       }
     }
   }
-  // int *resultPath = new int[n];
-  // for (int i = 0; i < n; i++) {
-  //   resultPath[i] = bestTour[i];
-  // }
+
   return {bestTour, bestDistance};
 }

@@ -9,18 +9,7 @@
 
 #include "../containers/Queue.hpp"
 #include "../containers/Stack.hpp"
-
-// ToDo Здесь нужно подумать! "При этом сам класс GraphAlgorithms не должен
-// ничего знать о внутреннем представлении графа из класса Graph." Мб
-// использовать абстрактный класс ??? Скорее всего его не исключить.
 #include "../graph/Graph.hpp"
-
-// ToDo Добавить doxygen документацию
-
-// typedef struct TsmResult {
-//   int *vertices;
-//   double distance;
-// } TsmResult;
 
 typedef struct TsmResult {
   std::vector<int> vertices;
@@ -55,4 +44,6 @@ class GraphAlgorithms {
                          std::vector<int> &current_path,
                          std::vector<int> &visited, int current_dist, int depth,
                          long long int t);
+
+  static bool IsStronglyConnected(Graph &graph);
 };
