@@ -1,8 +1,10 @@
 #pragma once
 #include <cstring>
+#include <limits>
 
 #include "../graph/Graph.hpp"
 
+const long long INF = std::numeric_limits<long long>::max();
 typedef struct data {
   int error;
   int state;
@@ -20,5 +22,4 @@ void Dijkstra(Data *data);
 void Floyd(Data *data);
 void Prim(Data *data);
 void TSP(Data *data);
-void ClearLastLine(int times);
 long long GetTime();

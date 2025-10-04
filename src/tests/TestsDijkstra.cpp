@@ -39,8 +39,10 @@ TEST(DijkstraAlgorithmTest, NoPathThrows) {
   std::vector<std::vector<int>> matrix = {{0, 0}, {0, 0}};
   graph.SetAdjacencyMatrix(matrix);
 
-  EXPECT_THROW(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 2),
-               std::runtime_error);
+  EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 2, 1),
+            std::numeric_limits<long long>::max());
+  // EXPECT_THROW(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 2),
+  //              std::runtime_error);
 }
 
 TEST(DijkstraAlgorithmTest, InvalidVertexThrows) {

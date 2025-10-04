@@ -43,6 +43,5 @@ class GraphAlgorithms {
                          std::vector<int>& current_path,
                          std::vector<int>& visited, int current_dist, int depth,
                          long long int t);
-
   static bool IsStronglyConnected(Graph& graph);
 };

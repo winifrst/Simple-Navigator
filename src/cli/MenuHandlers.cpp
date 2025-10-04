@@ -135,18 +135,33 @@ void Dijkstra(Data* data) {
     int vertex_2 = GetUserInputInt(1, data->graph.GetVerticesCount());
 
     PrintHeader("Shortest path distance");
-    printf("\033[1;32m");
-    printf("\n%lld\n", GraphAlgorithms::GetShortestPathBetweenVertices(
-                           data->graph, vertex_1, vertex_2));
 
-    printf("\033[0m");
+    long long result = GraphAlgorithms::GetShortestPathBetweenVertices(
+        data->graph, vertex_1, vertex_2);
+
+    if (result == std::numeric_limits<long long>::max()) {
+      printf(
+          "\033[1;31m\n "
+          "Error: no path between two given vertices\n"
+          "\033[0m");
+      PrintResultFooter();
+      // printf("\033[1;31m");
+      // printf("\nERROR!\n");
+      // printf("\033[0m");
+
+    } else {
+      printf("\033[1;32m");
+      printf("\n%lld\n", result);
+
+      printf("\033[0m");
+    }
   } else {
     printf("\033[1;31m");
     printf(
         "\nThe graph is not initialized. Please load the graph from file "
         "first.\n");
+    printf("\033[0m");
   }
-  printf("\033[0m");
 
   data->state = 0;
 }
