@@ -9,3 +9,4 @@ void PrintMatrix(const std::vector<std::vector<int>> &adjacencyMatrix);
 void PrintVector(const std::vector<int> &result);
 void PrintHeader(const char *title);
 void PrintResultFooter();
+void ClearLastLine(int times);

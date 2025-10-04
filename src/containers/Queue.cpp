@@ -30,8 +30,7 @@ void Queue::Push(int value) {
  * @return значение удаленного элемента
  */
 int Queue::Pop() {
-  if (Empty())
-    throw std::out_of_range("Queue is empty");
+  if (Empty()) throw std::out_of_range("Queue is empty");
 
   int value = front_->data;
   Node *temp = front_;
@@ -51,8 +50,7 @@ int Queue::Pop() {
  * @return значение первого элемента
  */
 int Queue::Front() const {
-  if (Empty())
-    throw std::out_of_range("Queue is empty");
+  if (Empty()) throw std::out_of_range("Queue is empty");
   return front_->data;
 }
 
@@ -61,8 +59,7 @@ int Queue::Front() const {
  * @return значение последнего элемента
  */
 int Queue::Back() const {
-  if (Empty())
-    throw std::out_of_range("Queue is empty");
+  if (Empty()) throw std::out_of_range("Queue is empty");
   return back_->data;
 }
 
@@ -82,6 +79,5 @@ size_t Queue::Size() const { return size_; }
  * Очищает очередь, удаляя все элементы
  */
 void Queue::Clear() {
-  while (!Empty())
-    Pop();
+  while (!Empty()) Pop();
 }

@@ -228,7 +228,8 @@ void TSP(Data* data) {
     }
     double td =
         (double)(GetTime() - t) / 1000 * ((iter > 100) ? iter / 100 : 1);
-    printf("\033[1A\033[2K\033[1A\033[2K");
+
+    ClearLastLine(2);
 
     PrintHeader("Traveling salseman problem solve");
     putchar('\n');
@@ -236,9 +237,10 @@ void TSP(Data* data) {
     if (result_ant.distance != INFINITY) {
       PrintVector(result_ant.vertices);
     } else {
-      printf("\033[1;31m");
-      printf("\n      Error: cannot visit all vertices\n");
-      printf("\033[0m");
+      printf(
+          "\033[1;31m\n      "
+          "Error: cannot visit all vertices\n"
+          "\033[0m");
     }
 
     PrintResultFooter();
@@ -247,9 +249,13 @@ void TSP(Data* data) {
     printf("      path length: %.0f\n", result_ant.distance);
     printf("         Ant time: %.3lf s\n", td);
 
-    printf("\n\033[1;32m");
-    printf("\n  Brute force may take some time...\n");
-    printf("\033[0m");
+    printf(  // заглушка пока идет вычисление
+        " Brute force time: "
+        "\033[1;32m"
+        "Processing..."
+        "\033[0m"
+        "\n\n\n\n\n\n\n\n\n\n\n\n"
+        "\033[0m");
 
     TsmResult result_brute_force;
     for (int i = 0; i < ((iter > 100) ? 100 : iter); i++) {
@@ -259,7 +265,7 @@ void TSP(Data* data) {
     double td_bf =
         (double)(GetTime() - t) / 1000 * ((iter > 100) ? iter / 100 : 1);
 
-    printf("\033[1A\033[2K\033[1A\033[2K\033[1A\033[2K");
+    ClearLastLine(12);
 
     printf(" Brute force time: %.3lf s\n", td_bf);
     result_brute_force.vertices.clear();

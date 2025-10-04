@@ -50,7 +50,7 @@ int PrintMainMenu() {
   printf("8. Solve the Salesman problem (Ant colony, Brute-Force)\n");
   printf("9. Exit\n");
 
-  printf("\033[0m> ");
+  printf("> ");
 
   return true;
 }
@@ -110,4 +110,14 @@ void PrintHeader(const char* title) {
  */
 void PrintResultFooter() {
   printf("\033[1;32m+------------------------------------------+\033[0m\n\n");
+}
+
+/**
+ * Перемещает курсор консоли на строку вверх и очищает эту строку
+ * @param times количество строк
+ */
+void ClearLastLine(int times) {
+  while (times--) {
+    printf("\033[1A\033[2K");
+  }
 }

@@ -20,4 +20,5 @@ void Dijkstra(Data *data);
 void Floyd(Data *data);
 void Prim(Data *data);
 void TSP(Data *data);
+void ClearLastLine(int times);
 long long GetTime();
