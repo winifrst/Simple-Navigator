@@ -126,3 +126,30 @@ TEST(PrimAlgorithmTest, RandomGraphSixVertices) {
 
   EXPECT_TRUE(MatricesEqual(mst, expected));
 }
+
+TEST(PrimAlgorithmTest, DisconnectedGraph) {
+  Graph graph;
+
+  std::vector<std::vector<int>> matrix = {
+      {0, 1, 0, 0}, {1, 0, 0, 0}, {0, 0, 0, 1}, {0, 0, 1, 0}};
+  graph.SetAdjacencyMatrix(matrix);
+
+  std::vector<std::vector<int>> result =
+      GraphAlgorithms::GetLeastSpanningTree(graph);
+
+  EXPECT_EQ(result.size(), 4);
+  EXPECT_EQ(result[0].size(), 4);
+
+  bool has_edges = false;
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      if (result[i][j] > 0) {
+        has_edges = true;
+
+        EXPECT_GT(matrix[i][j], 0);
+      }
+    }
+  }
+
+  EXPECT_TRUE(has_edges);
+}

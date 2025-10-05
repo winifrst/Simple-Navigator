@@ -2,6 +2,9 @@ CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Werror
 UNAME_S := $(shell uname -s)
 
+GCOV_FLAGS = --coverage -fprofile-arcs -ftest-coverage
+GCOV_DIR = coverage
+
 ifeq ($(UNAME_S),Darwin)
   GTEST_PREFIX := $(shell brew --prefix googletest 2>/dev/null || echo "")
   ifneq ($(GTEST_PREFIX),)
@@ -113,3 +116,17 @@ style_check:
 	find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -n
 	find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
 	rm -f .clang-format
+
+gcov_report: clean
+	$(MAKE) CXXFLAGS="$(CXXFLAGS) $(GCOV_FLAGS)" $(TEST_BIN)
+	./$(TEST_BIN)
+	mkdir -p $(GCOV_DIR)
+	gcovr -r . \
+		--html --html-details -o $(GCOV_DIR)/index.html \
+		--exclude='tests/' \
+		--exclude='cli/' \
+		--exclude-unreachable-branches \
+		--print-summary
+	@clear
+	@echo "-- Gcov HTML report generated in $(GCOV_DIR)/index.html."
+	@xdg-open $(GCOV_DIR)/index.html || open $(GCOV_DIR)/index.html || echo "Please open $(GCOV_DIR)/index.html manually."

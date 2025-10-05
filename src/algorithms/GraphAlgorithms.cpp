@@ -58,7 +58,7 @@ long long GraphAlgorithms::GetShortestPathBetweenVertices(Graph& graph,
 
   // if (dist[vertex2 - 1] == INF) {
   //   throw runtime_error("No path exists between the vertices.");
-  // }
+  // }  // убрал обработку во фронт
 
   return dist[vertex2 - 1];
 }
