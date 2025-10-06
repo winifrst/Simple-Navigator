@@ -145,9 +145,6 @@ void Dijkstra(Data* data) {
           "Error: no path between two given vertices\n"
           "\033[0m");
       PrintResultFooter();
-      // printf("\033[1;31m");
-      // printf("\nERROR!\n");
-      // printf("\033[0m");
 
     } else {
       printf("\033[1;32m");

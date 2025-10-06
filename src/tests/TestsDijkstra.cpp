@@ -41,8 +41,6 @@ TEST(DijkstraAlgorithmTest, NoPathThrows) {
 
   EXPECT_EQ(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 2, 1),
             std::numeric_limits<long long>::max());
-  // EXPECT_THROW(GraphAlgorithms::GetShortestPathBetweenVertices(graph, 1, 2),
-  //              std::runtime_error);
 }
 
 TEST(DijkstraAlgorithmTest, InvalidVertexThrows) {

@@ -2,9 +2,6 @@ CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Werror
 UNAME_S := $(shell uname -s)
 
-GCOV_FLAGS = --coverage -fprofile-arcs -ftest-coverage
-GCOV_DIR = coverage
-
 ifeq ($(UNAME_S),Darwin)
   GTEST_PREFIX := $(shell brew --prefix googletest 2>/dev/null || echo "")
   ifneq ($(GTEST_PREFIX),)

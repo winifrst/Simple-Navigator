@@ -56,10 +56,6 @@ long long GraphAlgorithms::GetShortestPathBetweenVertices(Graph& graph,
     }
   }
 
-  // if (dist[vertex2 - 1] == INF) {
-  //   throw runtime_error("No path exists between the vertices.");
-  // }  // убрал обработку во фронт
-
   return dist[vertex2 - 1];
 }
 
@@ -270,7 +266,6 @@ void GraphAlgorithms::BruteForce(Graph* graph, TsmResult* result,
   int n = graph->GetVerticesCount();
 
   if (depth == n) {
-    // добавляем ребро возврата в начало
     int back_edge =
         graph->GetAdjacencyMatrix()[current_path[depth - 1]][current_path[0]];
     int total_dist = (back_edge > 0) ? current_dist + back_edge : INT_MAX;
@@ -279,7 +274,6 @@ void GraphAlgorithms::BruteForce(Graph* graph, TsmResult* result,
       result->distance = total_dist;
       current_path[depth] = current_path[0];
 
-      // копируем найденный маршрут
       result->vertices.assign(current_path.begin(),
                               current_path.begin() + n + 1);
     }
@@ -288,7 +282,7 @@ void GraphAlgorithms::BruteForce(Graph* graph, TsmResult* result,
       if (!visited[i]) {
         int weight = graph->GetAdjacencyMatrix()[current_path[depth - 1]][i];
 
-        if (weight > 0) {  // FIX: только положительные рёбра
+        if (weight > 0) {
           visited[i] = 1;
           current_path[depth] = i;
           current_dist += weight;
@@ -333,13 +327,11 @@ bool GraphAlgorithms::IsStronglyConnected(Graph& graph) {
     return true;
   }
 
-  // 1. DFS в исходном графе
   auto visited_order = DepthFirstSearch(graph, 0);
   if ((int)visited_order.size() != n) {
     return false;
   }
 
-  // 2. Строим транспонированный граф
   const auto& dist = graph.GetAdjacencyMatrix();
   std::vector<std::vector<int>> dist_transposed(n, std::vector<int>(n, 0));
   for (int i = 0; i < n; i++) {
@@ -353,7 +345,6 @@ bool GraphAlgorithms::IsStronglyConnected(Graph& graph) {
   Graph transposed_graph;
   transposed_graph.SetAdjacencyMatrix(dist_transposed);
 
-  // 3. DFS в транспонированном графе
   auto visited_order_transposed = DepthFirstSearch(transposed_graph, 0);
   if ((int)visited_order_transposed.size() != n) {
     return false;
