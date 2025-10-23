@@ -109,10 +109,8 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 style_check:
-	cp ../materials/linters/.clang-format .
 	find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -n
 	find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
-	rm -f .clang-format
 
 gcov_report: clean
 	$(MAKE) CXXFLAGS="$(CXXFLAGS) $(GCOV_FLAGS)" $(TEST_BIN)
